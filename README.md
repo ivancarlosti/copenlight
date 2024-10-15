@@ -1,7 +1,7 @@
 # CopenLight theme by Ivan Carlos
 
-<a target="_blank" href="https://github.com/ivancarlosti/copenlight"><img src="https://img.shields.io/github/stars/ivancarlosti/copenlight?style=flat" /></a>
-<a target="_blank" href="https://github.com/ivancarlosti/copenlight"><img src="https://img.shields.io/github/last-commit/ivancarlosti/copenlight" /></a>
+[![GitHub Sponsors](https://img.shields.io/github/stars/ivancarlosti/copenlight?style=flat&label=Stars)](https://github.com/sponsors/ivancarlosti)
+[![Last Commit](https://img.shields.io/github/last-commit/ivancarlosti/copenlight?label=Last%20Commit)](https://github.com/sponsors/ivancarlosti)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/ivancarlosti?label=GitHub%20Sponsors)](https://github.com/sponsors/ivancarlosti)
 [![Issues](https://img.shields.io/github/issues/ivancarlosti/copenlight?label=Issues)](https://github.com/ivancarlosti/copenlight/issues)
 [![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](https://github.com/ivancarlosti/copenlight/blob/master/LICENSE)
