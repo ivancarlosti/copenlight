@@ -58,6 +58,8 @@ jobs:
         rsync -av \
           --exclude='.github' \
           --exclude='.git' \
+          --exclude='README.md' \
+          --exclude='LICENSE' \
           /tmp/copenhagen_temp/copenhagen_theme/ "$GITHUB_WORKSPACE/"
 
     - name: Debug manifest.json in workspace
