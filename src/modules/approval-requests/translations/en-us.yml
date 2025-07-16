@@ -6,6 +6,7 @@
 # If you are building your own theme, you can remove this file and just load the translation JSON files, or provide
 # your translations with a different method.
 #
+
 title: "Copenhagen Theme Approval requests"
 packages:
   - "approval-requests"
@@ -30,6 +31,26 @@ parts:
       title: "Label for the priority of the ticket associated with the approval request"
       screenshot: "https://drive.google.com/file/d/1rB8uGfpnaDXGATBlsNyRdbntZKvS4BeW/view?usp=sharing"
       value: "Priority"
+  - translation:
+      key: "approval-requests.request.ticket-details.priority_low"
+      title: "Low priority level for a ticket associated with an approval request"
+      screenshot: "https://drive.google.com/file/d/1-RB1gY755d5Ffr_1rirtajAk1wxnmC_L/view?usp=sharing"
+      value: "Low"
+  - translation:
+      key: "approval-requests.request.ticket-details.priority_normal"
+      title: "Normal priority level for a ticket associated with an approval request"
+      screenshot: "https://drive.google.com/file/d/1WYuPkB_Ju-CcfjX4E6R3cY8plXMhfzu5/view?usp=sharing"
+      value: "Normal" 
+  - translation:
+      key: "approval-requests.request.ticket-details.priority_high"
+      title: "High priority level for a ticket associated with an approval request"
+      screenshot: "https://drive.google.com/file/d/17M5eebl-XR_Z8mrF5VNwkRSOCH8qbPqQ/view?usp=sharing"
+      value: "High"
+  - translation:
+      key: "approval-requests.request.ticket-details.priority_urgent"
+      title: "Urgent priority level for a ticket associated with an approval request"
+      screenshot: "https://drive.google.com/file/d/1PsUJkvvePPAL7GuEXLiV6AeRSleu9lib/view?usp=sharing"
+      value: "Urgent"
   - translation:
       key: "approval-requests.request.ticket-details.checkbox-value.yes"
       title: "Value representing true for a checkbox custom field"
@@ -67,12 +88,12 @@ parts:
       value: "Status"
   - translation:
       key: "approval-requests.request.approval-request-details.comment"
-      title: ""Noun - Label for the decision comment on an approval request"
+      title: "Noun - Label for the decision comment on an approval request"
       screenshot: "https://drive.google.com/file/d/1j9IzjnAa1AVXzWq6r4x4QcaQN-Y64lM5/view?usp=drive_link"
       value: "Comment"
   - translation:
-      key: "approval-requests.request.approval-request-details.decided - Subject: 'approval request'"
-      title: "Label for the decision date on an approval request"
+      key: "approval-requests.request.approval-request-details.decided"
+      title: "Label for the decision date on an approval request - Subject: 'approval request'"
       screenshot: "https://drive.google.com/file/d/1xpM_3Rt3hCD8aE-U7mEbL0Sh5dsC0ScN/view?usp=drive_link"
       value: "Decided"
   - translation:
@@ -80,6 +101,11 @@ parts:
       title: "Label for the withdrawn date on an approval request - Subject: 'approval request'"
       screenshot: "https://drive.google.com/file/d/1hkgy-71WFkLQnZ0PmEHFaWhfnuguiUmv/view?usp=drive_link"
       value: "Withdrawn on"
+  - translation:
+      key: "approval-requests.request.approval-request-details.previous-decision"
+      title: "Label in approval request details component"
+      screenshot: "https://drive.google.com/file/d/1R55CIlKhowOKZ9J22ChB81qiMz2NifYO/view?usp=drive_link"
+      value: "Previous decision"
   - translation:
       key: "approval-requests.request.approver-actions.approve-request"
       title: "Label for the approve request button to begin approving an approval request"
@@ -141,9 +167,20 @@ parts:
       screenshot: "https://drive.google.com/file/d/10Mdnw0YkIq3w4CjdDOSD9efAAxDapzYr/view?usp=drive_link"
       value: "Search approval requests"
   - translation:
+      key: "approval-requests.list.no-requests"
+      title: "Text to convey that no approval requests exist on the approval requests list page."
+      screenshot: "https://drive.google.com/file/d/1rrZ1MZKAsY7mNo89McYaZNwEB5pDjKtk/view?usp=sharing"
+      value: "No approval requests found."
+  - translation:
       key: "approval-requests.list.status-dropdown.label"
       title: "Label for the status dropdown on the approval requests list page"
       screenshot: "https://drive.google.com/file/d/18_4fS0yROAMC1yVdDYLfYvjKWeUdWCDH/view?usp=drive_link"
+      value: "Status:"
+      obsolete: "2025-05-24"
+  - translation:
+      key: "approval-requests.list.status-dropdown.label_v2"
+      title: "Label for the status dropdown on the approval requests list page"
+      screenshot: "https://drive.google.com/file/d/1T7BGzFgCWC74RIoUBBZ8tZzAvcksIw1r/view?usp=drive_link"
       value: "Status"
   - translation:
       key: "approval-requests.list.status-dropdown.any"
