@@ -13,7 +13,7 @@ jobs:
       contents: write
 
     steps:
-    - name: Checkout YOUR repository
+    - name: Checkout your repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -76,25 +76,25 @@ jobs:
         echo "== Appending custom CSS section to style.css =="
         STYLE_CSS="$GITHUB_WORKSPACE/style.css"
         if [ -f "$STYLE_CSS" ]; then
-          cat <<'EOF' >> "$STYLE_CSS"
+cat <<'EOF' >> "$STYLE_CSS"
 
-  /* ### BEGIN part to remove section */
-  .recent-activity-item-comment {
-    display: none;
-  }
-  .article-votes {
-    display: none;
-  }
-  .share {
-    display: none;
-  }
-  .comment-overview {
-    display: none;
-  }
-  .comment-callout {
-    display: none;
-  }
-  /* ### END part to remove section */
+/* ### BEGIN part to remove section */
+.recent-activity-item-comment {
+  display: none;
+}
+.article-votes {
+  display: none;
+}
+.share {
+  display: none;
+}
+.comment-overview {
+  display: none;
+}
+.comment-callout {
+  display: none;
+}
+/* ### END part to remove section */
 EOF
         else
           echo "style.css not found!"
