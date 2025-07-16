@@ -53,8 +53,7 @@ jobs:
         fi
 
         echo "Version is not beta ($VERSION), proceeding with sync."
-
-        # Copy files from CopenhagenTheme to the current workspace
+        # Note: favicon.ico is no longer in --exclude list
         rsync -av \
           --exclude='.github' \
           --exclude='.git' \
