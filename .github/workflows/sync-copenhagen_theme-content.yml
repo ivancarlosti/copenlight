@@ -115,7 +115,7 @@ jobs:
           echo "No changes to commit"
           exit 0
         else
-          git commit -m "Sync CopenhagenTheme content [▶️] - version $VERSION"
+          git commit -m "Sync CopenhagenTheme content [▶️]"
           echo "Commit created"
         fi
 
