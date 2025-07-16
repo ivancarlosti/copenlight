@@ -16,7 +16,7 @@ The main file modified are:
 ```
 .\manifest.json
 .\README.md
-.\style.css.
+.\style.css
 ```
 
 ---
