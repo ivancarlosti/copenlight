@@ -1,0 +1,133 @@
+name: Sync CopenhagenTheme Content to Main
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs at 00:38 and 12:38 UTC every day
+    - cron: '38 */12 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout YOUR repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: main
+        repository: ivancarlosti/copenlight
+        clean: true
+        persist-credentials: true
+
+    - name: Reset Git remote
+      run: |
+        git remote remove origin || true
+        git remote add origin https://github.com/ivancarlosti/copenlight.git
+        git remote -v
+
+    - name: Download CopenhagenTheme content
+      run: |
+        mkdir -p /tmp/copenhagen_temp
+        cd /tmp/copenhagen_temp
+        git clone --branch gh-pages --depth 1 https://github.com/zendesk/copenhagen_theme.git
+        echo "== Checking manifest.json version =="
+
+        if [ ! -f copenhagen_theme/manifest.json ]; then
+          echo "No manifest.json file found, aborting sync."
+          exit 0
+        fi
+
+        VERSION=$(jq -r '.version // empty' copenhagen_theme/manifest.json)
+
+        if [ -z "$VERSION" ]; then
+          echo "No version defined in manifest.json, aborting sync."
+          exit 0
+        fi
+
+        if echo "$VERSION" | grep -i 'beta'; then
+          echo "Version is beta ($VERSION), aborting sync."
+          exit 0
+        fi
+
+        echo "Version is not beta ($VERSION), proceeding with sync."
+
+        # Copy files from CopenhagenTheme to the current workspace
+        rsync -av \
+          --exclude='.github' \
+          --exclude='.git' \
+          copenhagen_theme/ "$GITHUB_WORKSPACE/"
+        echo "=== Files copied to repository ==="
+        ls -la "$GITHUB_WORKSPACE"
+
+    - name: Modify manifest.json
+      run: |
+        echo "== Updating manifest.json with custom name and author =="
+        MANIFEST="$GITHUB_WORKSPACE/manifest.json"
+        if [ -f "$MANIFEST" ]; then
+          jq '.name = "CopenLight" | .author = "Ivan Carlos"' "$MANIFEST" > "$MANIFEST.tmp" && mv "$MANIFEST.tmp" "$MANIFEST"
+        else
+          echo "manifest.json not found!"
+          exit 1
+        fi
+
+    - name: Append custom CSS to style.css
+      run: |
+        echo "== Appending custom CSS section to style.css =="
+        STYLE_CSS="$GITHUB_WORKSPACE/style.css"
+        if [ -f "$STYLE_CSS" ]; then
+          cat << 'EOF' >> "$STYLE_CSS"
+
+/* ### BEGIN part to remove section */
+.recent-activity-item-comment {
+  display: none;
+}
+.article-votes {
+  display: none;
+}
+.share {
+  display: none;
+}
+.comment-overview {
+  display: none;
+}
+.comment-callout {
+  display: none;
+}
+/* ### END part to remove section */
+EOF
+        else
+          echo "style.css not found!"
+          exit 1
+        fi
+
+    - name: Cleanup temp files
+      run: |
+        rm -rf /tmp/copenhagen_temp
+        echo "Temp folder cleaned."
+
+    - name: Commit changes
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        git config --global user.email "ivan@ivancarlos.com.br"
+        git config --global user.name "ivancarlosti"
+        git add .
+
+        if [ -n "$(git status --porcelain)" ]; then
+          git commit -m "Sync CopenhagenTheme content [▶️] - updated name/author and CSS"
+          echo "=== Commit details ==="
+          git show --stat
+        else
+          echo "No changes to commit"
+          exit 0
+        fi
+
+    - name: Push changes
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        git push \
+          https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/ivancarlosti/copenlight.git \
+          HEAD:main
+        echo "=== Push successful ==="
