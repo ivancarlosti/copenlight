@@ -53,7 +53,6 @@ jobs:
         fi
 
         echo "Version is not beta ($VERSION), proceeding with sync."
-        # Note: favicon.ico is no longer in --exclude list
         rsync -av \
           --exclude='.github' \
           --exclude='.git' \
@@ -77,25 +76,25 @@ jobs:
         echo "== Appending custom CSS section to style.css =="
         STYLE_CSS="$GITHUB_WORKSPACE/style.css"
         if [ -f "$STYLE_CSS" ]; then
-          cat << 'EOF' >> "$STYLE_CSS"
+          cat <<'EOF' >> "$STYLE_CSS"
 
-/* ### BEGIN part to remove section */
-.recent-activity-item-comment {
-  display: none;
-}
-.article-votes {
-  display: none;
-}
-.share {
-  display: none;
-}
-.comment-overview {
-  display: none;
-}
-.comment-callout {
-  display: none;
-}
-/* ### END part to remove section */
+  /* ### BEGIN part to remove section */
+  .recent-activity-item-comment {
+    display: none;
+  }
+  .article-votes {
+    display: none;
+  }
+  .share {
+    display: none;
+  }
+  .comment-overview {
+    display: none;
+  }
+  .comment-callout {
+    display: none;
+  }
+  /* ### END part to remove section */
 EOF
         else
           echo "style.css not found!"
@@ -113,7 +112,6 @@ EOF
         git config --global user.email "ivan@ivancarlos.com.br"
         git config --global user.name "ivancarlosti"
         git add .
-
         if [ -n "$(git status --porcelain)" ]; then
           git commit -m "Sync CopenhagenTheme content [▶️] - updated name/author and CSS"
           echo "=== Commit details ==="
