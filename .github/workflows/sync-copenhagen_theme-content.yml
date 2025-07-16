@@ -3,8 +3,7 @@ name: Sync CopenhagenTheme Content to Main
 on:
   workflow_dispatch:
   schedule:
-    # Runs at 00:38 and 12:38 UTC every day
-    - cron: '38 */12 * * *'
+    - cron: '38 */12 * * *'  # Every 12 hours
 
 jobs:
   sync:
@@ -33,15 +32,14 @@ jobs:
         mkdir -p /tmp/copenhagen_temp
         cd /tmp/copenhagen_temp
         git clone --branch gh-pages --depth 1 https://github.com/zendesk/copenhagen_theme.git
-        echo "== Checking manifest.json version =="
 
+        echo "== Checking manifest.json version =="
         if [ ! -f copenhagen_theme/manifest.json ]; then
           echo "No manifest.json file found, aborting sync."
           exit 0
         fi
 
         VERSION=$(jq -r '.version // empty' copenhagen_theme/manifest.json)
-
         if [ -z "$VERSION" ]; then
           echo "No version defined in manifest.json, aborting sync."
           exit 0
@@ -57,8 +55,6 @@ jobs:
           --exclude='.github' \
           --exclude='.git' \
           copenhagen_theme/ "$GITHUB_WORKSPACE/"
-        echo "=== Files copied to repository ==="
-        ls -la "$GITHUB_WORKSPACE"
 
     - name: Modify manifest.json
       run: |
@@ -73,29 +69,27 @@ jobs:
 
     - name: Append custom CSS to style.css
       run: |
-        echo "== Appending custom CSS section to style.css =="
+        echo "== Appending full custom CSS rules to style.css =="
         STYLE_CSS="$GITHUB_WORKSPACE/style.css"
         if [ -f "$STYLE_CSS" ]; then
-cat <<'EOF' >> "$STYLE_CSS"
-
-/* ### BEGIN part to remove section */
-.recent-activity-item-comment {
-  display: none;
-}
-.article-votes {
-  display: none;
-}
-.share {
-  display: none;
-}
-.comment-overview {
-  display: none;
-}
-.comment-callout {
-  display: none;
-}
-/* ### END part to remove section */
-EOF
+          echo "" >> "$STYLE_CSS"
+          echo "/* ### BEGIN part to remove section */" >> "$STYLE_CSS"
+          echo ".recent-activity-item-comment {" >> "$STYLE_CSS"
+          echo "  display: none;" >> "$STYLE_CSS"
+          echo "}" >> "$STYLE_CSS"
+          echo ".article-votes {" >> "$STYLE_CSS"
+          echo "  display: none;" >> "$STYLE_CSS"
+          echo "}" >> "$STYLE_CSS"
+          echo ".share {" >> "$STYLE_CSS"
+          echo "  display: none;" >> "$STYLE_CSS"
+          echo "}" >> "$STYLE_CSS"
+          echo ".comment-overview {" >> "$STYLE_CSS"
+          echo "  display: none;" >> "$STYLE_CSS"
+          echo "}" >> "$STYLE_CSS"
+          echo ".comment-callout {" >> "$STYLE_CSS"
+          echo "  display: none;" >> "$STYLE_CSS"
+          echo "}" >> "$STYLE_CSS"
+          echo "/* ### END part to remove section */" >> "$STYLE_CSS"
         else
           echo "style.css not found!"
           exit 1
@@ -113,9 +107,7 @@ EOF
         git config --global user.name "ivancarlosti"
         git add .
         if [ -n "$(git status --porcelain)" ]; then
-          git commit -m "Sync CopenhagenTheme content [▶️] - updated name/author and CSS"
-          echo "=== Commit details ==="
-          git show --stat
+          git commit -m "Sync CopenhagenTheme content [▶️] - updated manifest and style.css"
         else
           echo "No changes to commit"
           exit 0
@@ -127,4 +119,4 @@ EOF
         git push \
           https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/ivancarlosti/copenlight.git \
           HEAD:main
-        echo "=== Push successful ==="
+        echo "Push successful"
