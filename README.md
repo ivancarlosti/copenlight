@@ -1,6 +1,7 @@
 # CopenLight theme by Ivan Carlos
 The Copenhagen theme is the default Zendesk Guide theme. This fork is built to control updates delivered by Zendesk, hiding some social features like comments, votes and social sharing.
 
+<!-- buttons -->
 [![Stars](https://img.shields.io/github/stars/ivancarlosti/copenlight?label=⭐%20Stars&color=gold&style=flat)](https://github.com/ivancarlosti/copenlight/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/ivancarlosti/copenlight?label=Watchers&style=flat&color=red)](https://github.com/sponsors/ivancarlosti)
 [![Forks](https://img.shields.io/github/forks/ivancarlosti/copenlight?label=Forks&style=flat&color=ff69b4)](https://github.com/sponsors/ivancarlosti)
@@ -10,6 +11,7 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to c
 [![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](LICENSE)
 [![Security](https://img.shields.io/badge/Security-View%20Here-purple)](https://github.com/ivancarlosti/copenlight/security)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-1.4-4baaaa)](https://github.com/ivancarlosti/copenlight/tree/main?tab=coc-ov-file)
+<!-- endbuttons -->
 
 ## Details
 The main file modified are:
@@ -19,6 +21,7 @@ The main file modified are:
 .\style.css
 ```
 
+<!-- footer -->
 ---
 
 ## 🧑‍💻 Consulting and technical support
