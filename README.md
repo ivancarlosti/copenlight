@@ -17,6 +17,7 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to c
 The main file modified are:
 ```
 .\manifest.json
+.\LICENSE
 .\README.md
 .\style.css
 ```
