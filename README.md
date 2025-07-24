@@ -8,7 +8,7 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to c
 [![GitHub last commit](https://img.shields.io/github/last-commit/ivancarlosti/copenlight?label=Last%20Commit)](https://github.com/ivancarlosti/copenlight/commits)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ivancarlosti/copenlight?label=Activity)](https://github.com/ivancarlosti/copenlight/pulse)  
 [![GitHub Issues](https://img.shields.io/github/issues/ivancarlosti/copenlight?label=Issues&color=orange)](https://github.com/ivancarlosti/copenlight/issues)
-[![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](LICENSE)s
+[![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](LICENSE)
 [![Security](https://img.shields.io/badge/Security-View%20Here-purple)](https://github.com/ivancarlosti/copenlight/security)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-2.1-4baaaa)](https://github.com/ivancarlosti/copenlight?tab=coc-ov-file)
 <!-- endbuttons -->
@@ -45,9 +45,6 @@ The main file modified are:
 [![Telegram](https://img.shields.io/badge/Telegram-@ivancarlos-26A5E4)](https://t.me/ivancarlos)  
 [![Website](https://img.shields.io/badge/Website-ivancarlos.me-FF6B6B)](https://ivancarlos.me)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/ivancarlosti?label=GitHub%20Sponsors&color=ffc0cb)][sponsor]
-
-## 📃 License
-[MIT](LICENSE) © [Ivan Carlos][ivancarlos]
 
 [cc]: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project
 [contributing]: https://docs.github.com/en/articles/setting-guidelines-for-repository-contributors
