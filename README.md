@@ -8,7 +8,7 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to c
 [![GitHub last commit](https://img.shields.io/github/last-commit/ivancarlosti/copenlight?label=Last%20Commit)](https://github.com/ivancarlosti/copenlight/commits)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ivancarlosti/copenlight?label=Activity)](https://github.com/ivancarlosti/copenlight/pulse)  
 [![GitHub Issues](https://img.shields.io/github/issues/ivancarlosti/copenlight?label=Issues&color=orange)](https://github.com/ivancarlosti/copenlight/issues)
-[![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](LICENSE)
+[![License](https://img.shields.io/github/license/ivancarlosti/copenlight?label=License)](LICENSE)s
 [![Security](https://img.shields.io/badge/Security-View%20Here-purple)](https://github.com/ivancarlosti/copenlight/security)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-2.1-4baaaa)](https://github.com/ivancarlosti/copenlight?tab=coc-ov-file)
 <!-- endbuttons -->
