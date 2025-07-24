@@ -1,4 +1,4 @@
-name: Sync CopenhagenTheme Content to Main
+name: Sync CopenhagenTheme Repository
 
 on:
   workflow_dispatch:
