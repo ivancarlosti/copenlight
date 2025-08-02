@@ -40,8 +40,12 @@ jobs:
         if: steps.check_commits.outputs.commit_count != '0'
         id: changed_files
         run: |
-          echo "CHANGED=$(git diff --name-only HEAD^ HEAD | tr '\n' ' ')" >> $GITHUB_OUTPUT
-          echo "COUNT=$(git diff --name-only HEAD^ HEAD | wc -l)" >> $GITHUB_OUTPUT
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          COUNT=$(echo "$CHANGED_FILES" | wc -l)
+          # Join changed files with space for output
+          CHANGED=$(echo "$CHANGED_FILES" | tr '\n' ' ' | sed 's/ $//')
+          echo "CHANGED=$CHANGED" >> $GITHUB_OUTPUT
+          echo "COUNT=$COUNT" >> $GITHUB_OUTPUT
 
       - name: 🔢 Determine version
         if: steps.check_commits.outputs.commit_count != '0'
@@ -51,7 +55,7 @@ jobs:
           DEFAULT_VERSION="1.00.000"
 
           if [ -f "$VERSION_FILE" ]; then
-            HAS_VERSION=$(jq 'has("version")' "$VERSION_FILE")
+            HAS_VERSION=$(jq 'has("version")' "$VERSION_FILE" 2>/dev/null || echo false)
             if [ "$HAS_VERSION" = "true" ]; then
               VERSION=$(jq -r '.version' "$VERSION_FILE")
               [ "$VERSION" = "null" ] && VERSION="$DEFAULT_VERSION"
@@ -62,25 +66,32 @@ jobs:
             VERSION="$DEFAULT_VERSION"
           fi
 
-          MAJOR=$(echo $VERSION | cut -d. -f1)
-          MINOR=$(echo $VERSION | cut -d. -f2)
-          PATCH=$(echo $VERSION | cut -d. -f3)
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
 
+          # Safely get COUNT from output, default to 0 if empty
           COUNT="${{ steps.changed_files.outputs.COUNT }}"
+          COUNT=${COUNT:-0}
 
           if [ "$COUNT" -ge 3 ]; then
             MAJOR=$((10#$MAJOR + 1))
-            MINOR=00
-            PATCH=000
+            MINOR=0
+            PATCH=0
           elif [ "$COUNT" -eq 2 ]; then
             MINOR=$((10#$MINOR + 1))
-            PATCH=000
+            PATCH=0
           elif [ "$COUNT" -eq 1 ]; then
             PATCH=$((10#$PATCH + 1))
           fi
 
+          # Normalize to decimal
+          MAJOR=$((10#$MAJOR))
+          MINOR=$((10#$MINOR))
+          PATCH=$((10#$PATCH))
+
           NEW_VERSION=$(printf "%d.%02d.%03d" "$MAJOR" "$MINOR" "$PATCH")
-          REPO_NAME=$(basename $GITHUB_REPOSITORY)
+          REPO_NAME=$(basename "$GITHUB_REPOSITORY")
           ZIP_NAME="${REPO_NAME}-${NEW_VERSION}.zip"
 
           echo "VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -95,7 +106,7 @@ jobs:
           AUTHOR="Ivan Carlos"
 
           if [ -f "$VERSION_FILE" ]; then
-            HAS_VERSION=$(jq 'has("version")' "$VERSION_FILE")
+            HAS_VERSION=$(jq 'has("version")' "$VERSION_FILE" 2>/dev/null || echo false)
             if [ "$HAS_VERSION" = "true" ]; then
               jq --arg v "$VERSION" --arg a "$AUTHOR" '.version = $v | .author = $a' "$VERSION_FILE" > tmp.json && mv tmp.json "$VERSION_FILE"
             else
@@ -162,4 +173,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}
