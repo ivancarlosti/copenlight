@@ -1,3 +1,4 @@
+/* ===== Ocultando conteúdo social ===== */
 .recent-activity-item-comment {
   display: none;
 }
@@ -144,11 +145,10 @@ p {
   word-break: break-word !important;
 }
 
-ul,
-ol {
-  margin-left: 1.7em !important;
-  margin-bottom: 1.1em !important;
-  font-size: 17px !important;
+ul, ol {
+    margin-left: 0.5em !important;
+    margin-bottom: 1.1em !important;
+    font-size: 15px !important;
 }
 
 ul li strong {
@@ -175,8 +175,7 @@ th {
   color: white !important;
 }
 
-img,
-.article-body img {
+img, .article-body img {
   max-width: 100% !important;
   height: auto !important;
   border-radius: 7px !important;
