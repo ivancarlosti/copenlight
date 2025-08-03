@@ -99,18 +99,18 @@ jobs:
 
       - name: Append custom JS from template
         run: |
-          STYLE_JS="$GITHUB_WORKSPACE/style.js"
+          SCRIPT_JS="$GITHUB_WORKSPACE/script.js"
           CUSTOM_JS="$GITHUB_WORKSPACE/custom/script.js.template"
 
-          if [ -f "$STYLE_JS" ] && [ -f "$CUSTOM_JS" ]; then
-            echo "== Appending custom JS from template to style.js =="
-            echo "" >> "$STYLE_JS"
-            echo "/* ### BEGIN part to custom JS from template ### */" >> "$STYLE_JS"
-            cat "$CUSTOM_JS" >> "$STYLE_JS"
-            echo "/* ### END part to custom JS from template ### */" >> "$STYLE_JS"
+          if [ -f "$SCRIPT_JS" ] && [ -f "$CUSTOM_JS" ]; then
+            echo "== Appending custom JS from template to script.js =="
+            echo "" >> "$SCRIPT_JS"
+            echo "/* ### BEGIN part to custom JS from template ### */" >> "$SCRIPT_JS"
+            cat "$CUSTOM_JS" >> "$SCRIPT_JS"
+            echo "/* ### END part to custom JS from template ### */" >> "$SCRIPT_JS"
             echo "Custom JS appended successfully."
           else
-            echo "Either style.js or script.js.template not found!"
+            echo "Either script.js or script.js.template not found!"
             exit 1
           fi
 
