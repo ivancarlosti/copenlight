@@ -661,19 +661,19 @@
 })();
 
 /* ### BEGIN part to custom JS from template ### */
-/* ### BEGIN part to custom script */
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('pre').forEach(function(pre) {
-    // Evita duplicar a numeração se já existir
+    // Evita duplicar numeração se já existir
     if (pre.querySelector('.line-number')) return;
 
     const lines = pre.textContent.split('\n');
     const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('<br>');
+
     const lineNumberDiv = document.createElement('div');
     lineNumberDiv.className = 'line-number';
     lineNumberDiv.innerHTML = lineNumbersHtml;
 
-    pre.style.position = 'relative'; // necessário para posicionar os números e botão
+    pre.style.position = 'relative';  // garante posicionamento correto dos elementos
 
     pre.insertBefore(lineNumberDiv, pre.firstChild);
 
@@ -684,7 +684,25 @@ document.addEventListener("DOMContentLoaded", function() {
     copyBtn.textContent = 'Copiar';
 
     copyBtn.addEventListener('click', function() {
-      navigator.clipboard.writeText(pre.innerText).then(() => {
+      // Selecionar texto real do código, sem a numeração
+      const codeElement = pre.querySelector('code');
+      let textToCopy = '';
+
+      if (codeElement) {
+        textToCopy = codeElement.innerText;
+      } else {
+        // Caso não tenha <code>, esconde temporariamente a numeração para copiar só o texto puro
+        const lineNumberDiv = pre.querySelector('.line-number');
+        if (lineNumberDiv) {
+          lineNumberDiv.style.display = 'none';
+          textToCopy = pre.innerText;
+          lineNumberDiv.style.display = '';
+        } else {
+          textToCopy = pre.innerText;
+        }
+      }
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
         copyBtn.textContent = 'Copiado!';
         setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
       }).catch(() => {
@@ -696,5 +714,4 @@ document.addEventListener("DOMContentLoaded", function() {
     pre.appendChild(copyBtn);
   });
 });
-/* ### END part to custom script */
 /* ### END part to custom JS from template ### */
