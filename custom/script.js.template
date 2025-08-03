@@ -1,4 +1,3 @@
-/* ### BEGIN part to custom script */
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('pre').forEach(function(pre) {
     // Evita duplicar numeração se já existir
@@ -52,4 +51,3 @@ document.addEventListener("DOMContentLoaded", function() {
     pre.appendChild(copyBtn);
   });
 });
-/* ### END part to custom script */
