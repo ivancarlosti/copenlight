@@ -1,4 +1,4 @@
-/* ### BEGIN part to custom style */
+/* ===== Esconde funções sociais ===== */
 .recent-activity-item-comment { display: none; }
 .article-votes { display: none; }
 .share { display: none; }
@@ -196,8 +196,6 @@ pre .copy-btn:hover {
   background: #005a99 !important;
 }
 
-
-
 /* ===== Responsividade para pequenos dispositivos ===== */
 @media (max-width: 900px) {
   #main-content.article, .article, .article-body, #article-body {
@@ -215,4 +213,3 @@ pre .copy-btn:hover {
     font-size: 13px !important;
   }
 }
-/* ### END part to custom style */
