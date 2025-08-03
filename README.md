@@ -1,5 +1,5 @@
 # CopenLight theme by Ivan Carlos
-The Copenhagen theme is the default Zendesk Guide theme. This fork is built to control updates delivered by Zendesk, hiding some social features like comments, votes and social sharing.
+The Copenhagen theme is the default Zendesk Guide theme. This fork is built to allow insertion of code on style.css, script.js files preserving Copenhagen updates.
 
 <!-- buttons -->
 [![Stars](https://img.shields.io/github/stars/ivancarlosti/copenlight?label=⭐%20Stars&color=gold&style=flat)](https://github.com/ivancarlosti/copenlight/stargazers)
