@@ -13,14 +13,12 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to c
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-2.1-4baaaa)](https://github.com/ivancarlosti/copenlight?tab=coc-ov-file)
 <!-- endbuttons -->
 
-## Details
-The main file modified are:
-```
-.\manifest.json
-.\LICENSE
-.\README.md
-.\style.css
-```
+## Instructions
+
+* Fork this repository
+* Edit /custom files
+* Run action `Sync CopenhagenTheme Repository` to pull updated Copenhagen files and embed script.js/style.css files on them
+* Add or update the theme using your repository on `yourzendeskdomain/theming/workbench`
 
 <!-- footer -->
 ---
