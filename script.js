@@ -663,7 +663,7 @@
 /* ### BEGIN part to custom JS from template ### */
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('pre').forEach(function(pre) {
-    // Evita duplicar numeração se já existir
+    // Evita numerar duas vezes o mesmo bloco
     if (pre.querySelector('.line-number')) return;
 
     const lines = pre.textContent.split('\n');
@@ -673,33 +673,28 @@ document.addEventListener("DOMContentLoaded", function() {
     lineNumberDiv.className = 'line-number';
     lineNumberDiv.innerHTML = lineNumbersHtml;
 
-    pre.style.position = 'relative';  // garante posicionamento correto dos elementos
+    pre.style.position = 'relative';  // posicionamento para os overlays
 
     pre.insertBefore(lineNumberDiv, pre.firstChild);
 
-    // Criar e adicionar botão copiar
+    // Criar e anexar o botão copiar
     const copyBtn = document.createElement('button');
     copyBtn.className = 'copy-btn';
     copyBtn.type = 'button';
     copyBtn.textContent = 'Copiar';
 
     copyBtn.addEventListener('click', function() {
-      // Selecionar texto real do código, sem a numeração
       const codeElement = pre.querySelector('code');
       let textToCopy = '';
 
       if (codeElement) {
         textToCopy = codeElement.innerText;
       } else {
-        // Caso não tenha <code>, esconde temporariamente a numeração para copiar só o texto puro
-        const lineNumberDiv = pre.querySelector('.line-number');
-        if (lineNumberDiv) {
-          lineNumberDiv.style.display = 'none';
-          textToCopy = pre.innerText;
-          lineNumberDiv.style.display = '';
-        } else {
-          textToCopy = pre.innerText;
-        }
+        // Copiar somente nós de texto, ignorando botões e a numeração
+        textToCopy = Array.from(pre.childNodes)
+          .filter(node => node.nodeType === Node.TEXT_NODE)
+          .map(node => node.textContent)
+          .join('');
       }
 
       navigator.clipboard.writeText(textToCopy).then(() => {
