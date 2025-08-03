@@ -17,7 +17,7 @@ The Copenhagen theme is the default Zendesk Guide theme. This fork is built to a
 
 * Fork this repository
 * Edit files `/custom/script.js.template`, `/custom/style.css.template`
-* Run action `Sync CopenhagenTheme Repository` to pull updated Copenhagen files and embed script.js/style.css files on them
+* Run action `Sync CopenhagenTheme Repository` to pull updated Copenhagen files and add content of `/custom/script.js.template`, `/custom/style.css.template` on related `script.js`, `style.css` files
 * (optional) Run action `Build, Push, Publish` to create an updated release of your repository
 * Add or update the theme using your repository on `yourzendeskdomain/theming/workbench`
 
