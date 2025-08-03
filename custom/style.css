@@ -1,0 +1,218 @@
+/* ### BEGIN part to custom style */
+.recent-activity-item-comment { display: none; }
+.article-votes { display: none; }
+.share { display: none; }
+.comment-overview { display: none; }
+.comment-callout { display: none; }
+
+/* ===== Container da página do artigo ===== */
+.article-container, #article-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  max-width: 1300px !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  gap: 40px !important;
+  width: 100% !important;
+}
+
+/* ===== Artigo principal ===== */
+#main-content.article, .article, .article-body, #article-body {
+  flex: 1 1 700px !important;
+  max-width: 900px !important;
+  min-width: 300px !important;
+  width: 100% !important;
+  background: #fff !important;
+  padding: 40px 36px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.10) !important;
+  margin: 40px 0 !important;
+  font-size: 18px !important;
+  line-height: 1.7 !important;
+  box-sizing: border-box !important;
+  overflow-x: auto !important;
+}
+
+/* ===== Sidebar lateral ===== */
+.zd-sidebar, .article-sidebar {
+  flex: 0 0 260px !important;
+  max-width: 260px !important;
+  width: 100% !important;
+  background: #f1f5f9 !important;
+  padding: 20px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.05) !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  margin: 40px 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 1150px) {
+  .article-container, #article-container {
+    flex-direction: column !important;
+    gap: 0 !important;
+    max-width: 100% !important;
+    padding: 0 6vw !important;
+  }
+  #main-content.article, .article, .article-body, #article-body {
+    max-width: 100% !important;
+    padding: 18px 1vw !important;
+    margin: 10px 0 !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+  }
+  .zd-sidebar, .article-sidebar {
+    max-width: 100% !important;
+    margin: 0 0 24px 0 !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* ===== Evita scroll horizontal da página ===== */
+html, body {
+  overflow-x: hidden !important;
+}
+
+/* ===== Estilos gerais ===== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  background: #fafafa !important;
+  color: #222 !important;
+  margin: 0 !important;
+}
+
+h1, h2, h3, h4 {
+  color: #004080 !important;
+  font-weight: 700 !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.5em !important;
+}
+
+a {
+  color: #007acc !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+a:hover, a:focus {
+  color: #005a99 !important;
+  text-decoration: underline !important;
+}
+
+p {
+  margin-bottom: 1.15em !important;
+  font-size: 18px !important;
+}
+
+ul, ol {
+  margin-left: 1.7em !important;
+  margin-bottom: 1.1em !important;
+  font-size: 17px !important;
+}
+
+ul li strong {
+  color: #d9534f !important;
+}
+
+table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin-bottom: 1.5em !important;
+}
+
+th, td {
+  border: 1px solid #ddd !important;
+  padding: 10px !important;
+  text-align: left !important;
+}
+
+th {
+  background-color: #007acc !important;
+  color: white !important;
+}
+
+img, .article-body img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 7px !important;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.1) !important;
+  margin: 1.5em 0 !important;
+}
+
+/* ===== Estilos para blocos <pre> simples com numeração e botão copiar ===== */
+pre {
+  position: relative !important;
+  background: #f7f9fc !important;
+  border-left: 5px solid #007acc !important;
+  padding: 17px 45px 17px 50px !important; /* espaço para coluna de números */
+  border-radius: 5px !important;
+  margin-bottom: 2em !important;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.10) !important;
+  font-family: Consolas, Monaco, 'Courier New', monospace !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  overflow-x: auto !important;
+  white-space: pre !important;
+}
+
+/* Coluna dos números das linhas dentro do <pre> */
+pre .line-number {
+  position: absolute !important;
+  top: 17px !important;
+  left: 10px !important;
+  color: #b0b0b0 !important;
+  text-align: right !important;
+  width: 30px !important;
+  user-select: none !important;
+  font-family: "Courier New", monospace !important;
+  pointer-events: none !important;
+  line-height: 1.6 !important;
+  font-size: 15px !important;
+}
+
+/* Botão copiar dentro do <pre> */
+pre .copy-btn {
+  position: absolute !important;
+  top: 17px !important;
+  right: 15px !important;
+  background: #007acc !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 6px 15px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+  transition: background 0.3s !important;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.07) !important;
+}
+
+pre .copy-btn:hover {
+  background: #005a99 !important;
+}
+
+
+
+/* ===== Responsividade para pequenos dispositivos ===== */
+@media (max-width: 900px) {
+  #main-content.article, .article, .article-body, #article-body {
+    padding: 10px 2vw !important;
+    font-size: 16px !important;
+  }
+  pre {
+    padding-left: 38px !important;
+    font-size: 15px !important;
+  }
+  pre .copy-btn {
+    top: 8px !important;
+    right: 8px !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+}
+/* ### END part to custom style */
