@@ -312,59 +312,58 @@ jobs:
           exit 1
         fi
 
-	- name: Append custom JS to script.js
-	  run: |
-		echo "== Appending custom JS rules to script.js =="
-		SCRIPT_JS="$GITHUB_WORKSPACE/script.js"
-		if [ -f "$SCRIPT_JS" ]; then
-		  cat <<'EOF' >> "$SCRIPT_JS"
+    - name: Append custom JS to style.js
+      run: |
+        echo "== Appending custom JS rules to style.js =="
+        STYLE_JS="$GITHUB_WORKSPACE/style.js"
+        if [ -f "$STYLE_JS" ]; then
+          cat <<'EOF' >> "$STYLE_JS"
 
-		// ### BEGIN part to custom JS
+          /* ### BEGIN part to custom JS */
 
-		document.addEventListener("DOMContentLoaded", function() {
-		  document.querySelectorAll('pre').forEach(function(pre) {
-			// Evita duplicar a numeração se já existir
-			if (pre.querySelector('.line-number')) return;
+          document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('pre').forEach(function(pre) {
+              // Evita duplicar a numeração se já existir
+              if (pre.querySelector('.line-number')) return;
 
-			const lines = pre.textContent.split('\n');
-			const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('<br>');
-			const lineNumberDiv = document.createElement('div');
-			lineNumberDiv.className = 'line-number';
-			lineNumberDiv.innerHTML = lineNumbersHtml;
+              const lines = pre.textContent.split('\n');
+              const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('<br>');
+              const lineNumberDiv = document.createElement('div');
+              lineNumberDiv.className = 'line-number';
+              lineNumberDiv.innerHTML = lineNumbersHtml;
 
-			pre.style.position = 'relative'; // necessário para posicionar os números e botão
+              pre.style.position = 'relative'; // necessário para posicionar os números e botão
 
-			pre.insertBefore(lineNumberDiv, pre.firstChild);
+              pre.insertBefore(lineNumberDiv, pre.firstChild);
 
-			// Criar e adicionar botão copiar
-			const copyBtn = document.createElement('button');
-			copyBtn.className = 'copy-btn';
-			copyBtn.type = 'button';
-			copyBtn.textContent = 'Copiar';
+              // Criar e adicionar botão copiar
+              const copyBtn = document.createElement('button');
+              copyBtn.className = 'copy-btn';
+              copyBtn.type = 'button';
+              copyBtn.textContent = 'Copiar';
 
-			copyBtn.addEventListener('click', function() {
-			  navigator.clipboard.writeText(pre.innerText).then(() => {
-				copyBtn.textContent = 'Copiado!';
-				setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
-			  }).catch(() => {
-				copyBtn.textContent = 'Erro';
-				setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
-			  });
-			});
+              copyBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(pre.innerText).then(() => {
+                  copyBtn.textContent = 'Copiado!';
+                  setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+                }).catch(() => {
+                  copyBtn.textContent = 'Erro';
+                  setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+                });
+              });
 
-			pre.appendChild(copyBtn);
-		  });
-		});
+              pre.appendChild(copyBtn);
+            });
+          });
 
-		// ### END part to custom JS
+          /* ### END part to custom JS */
 
-	EOF
-		  echo "JS rules appended to script.js"
-		else
-		  echo "script.js not found!"
-		  exit 1
-		fi
-
+EOF
+          echo "JS rules appended to style.js"
+        else
+          echo "style.js not found!"
+          exit 1
+        fi
 
     - name: Cleanup temp files
       run: rm -rf /tmp/copenhagen_temp
