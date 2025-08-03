@@ -1,24 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('pre').forEach(function(pre) {
-    // Evita numerar duas vezes o mesmo bloco
-    if (pre.querySelector('.line-number')) return;
+    // Evita duplicar o botão copiar
+    if (pre.querySelector('.copy-btn')) return;
 
-    const lines = pre.textContent.split('\n');
-    const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('<br>');
+    pre.style.position = 'relative'; // importante para posicionamento absoluto do botão
 
-    const lineNumberDiv = document.createElement('div');
-    lineNumberDiv.className = 'line-number';
-    lineNumberDiv.innerHTML = lineNumbersHtml;
-
-    pre.style.position = 'relative';  // posicionamento para os overlays
-
-    pre.insertBefore(lineNumberDiv, pre.firstChild);
-
-    // Criar e anexar o botão copiar
+    // Criar botão copiar com ícone SVG
     const copyBtn = document.createElement('button');
     copyBtn.className = 'copy-btn';
     copyBtn.type = 'button';
-    copyBtn.textContent = 'Copiar';
+    copyBtn.setAttribute('aria-label', 'Copiar código');
+
+    // Ícone clipboard SVG inline
+    copyBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M19 21H9a2 2 0 0 1-2-2V7h2v12h10ZM16 3h-2.586l-.707-.707A.997.997 0 0 0 12.586 2H8a2 2 0 0 0-2 2v14h2V4h4v1h4a2 2 0 0 1 2 2v10h2V7a4 4 0 0 0-4-4Z" />
+      </svg>
+    `;
 
     copyBtn.addEventListener('click', function() {
       const codeElement = pre.querySelector('code');
@@ -27,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (codeElement) {
         textToCopy = codeElement.innerText;
       } else {
-        // Copiar somente nós de texto, ignorando botões e a numeração
+        // Copiar apenas texto puro do <pre> ignorando o botão
         textToCopy = Array.from(pre.childNodes)
           .filter(node => node.nodeType === Node.TEXT_NODE)
           .map(node => node.textContent)
@@ -35,11 +33,30 @@ document.addEventListener("DOMContentLoaded", function() {
       }
 
       navigator.clipboard.writeText(textToCopy).then(() => {
-        copyBtn.textContent = 'Copiado!';
-        setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+        // Feedback visual simples
+        copyBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" >
+            <path fill="green" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>`;
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19 21H9a2 2 0 0 1-2-2V7h2v12h10ZM16 3h-2.586l-.707-.707A.997.997 0 0 0 12.586 2H8a2 2 0 0 0-2 2v14h2V4h4v1h4a2 2 0 0 1 2 2v10h2V7a4 4 0 0 0-4-4Z" />
+            </svg>
+          `;
+        }, 1500);
       }).catch(() => {
-        copyBtn.textContent = 'Erro';
-        setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+        // Se erro, exibe ícone de erro (vermelho)
+        copyBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" >
+            <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.29 13.29-1.41 1.41L12 13.41l-2.88 2.88-1.41-1.41L10.59 12 7.71 9.12l1.41-1.41L12 10.59l2.88-2.88 1.41 1.41L13.41 12l2.88 2.88z"/>
+          </svg>`;
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19 21H9a2 2 0 0 1-2-2V7h2v12h10ZM16 3h-2.586l-.707-.707A.997.997 0 0 0 12.586 2H8a2 2 0 0 0-2 2v14h2V4h4v1h4a2 2 0 0 1 2 2v10h2V7a4 4 0 0 0-4-4Z" />
+            </svg>`;
+        }, 1500);
       });
     });
 
