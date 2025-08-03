@@ -37,20 +37,15 @@
 }
 
 /* ===== Artigo principal ===== */
-#main-content.article,
-.article,
-.article-body,
-#article-body {
+#main-content.article, .article, .article-body, #article-body {
   flex: 1 1 700px !important;
   max-width: 900px !important;
   min-width: 300px !important;
   width: 100% !important;
   background: #fff !important;
-  padding: 40px 36px !important;
   border-radius: 12px !important;
-  box-shadow: 0 6px 24px rgb(0 0 0 / 0.10) !important;
   margin: 40px 0 !important;
-  font-size: 18px !important;
+  font-size: 15px !important;
   line-height: 1.7 !important;
   box-sizing: border-box !important;
   overflow-wrap: break-word !important;
@@ -66,7 +61,6 @@
   background: #f1f5f9 !important;
   padding: 20px !important;
   border-radius: 10px !important;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.05) !important;
   font-size: 15px !important;
   line-height: 1.5 !important;
   margin: 40px 0 !important;
@@ -83,10 +77,7 @@
     max-width: 100% !important;
     padding: 0 6vw !important;
   }
-  #main-content.article,
-  .article,
-  .article-body,
-  #article-body {
+  #main-content.article, .article, .article-body, #article-body {
     max-width: 100% !important;
     padding: 18px 1vw !important;
     margin: 10px 0 !important;
@@ -117,13 +108,10 @@ body {
   margin: 0 !important;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   color: #004080 !important;
   font-weight: 700 !important;
-  margin-top: 0em !important;
+  margin-top: 0.5em !important;
   margin-bottom: 0.5em !important;
 }
 
@@ -193,7 +181,7 @@ pre {
   margin-bottom: 2em !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
   font-family: Consolas, Monaco, 'Courier New', monospace !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   line-height: 1.6 !important;
   overflow-x: auto !important;
   white-space: pre !important;
