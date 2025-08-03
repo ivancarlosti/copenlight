@@ -319,9 +319,9 @@ jobs:
         if [ -f "$SCRIPT_JS" ]; then
           {
             echo ""
-            echo "/* ### BEGIN part to custom JS */"
+            echo "// ### BEGIN part to custom JS"
             echo ""
-            echo "document.addEventListener("DOMContentLoaded", function() {"
+            echo "document.addEventListener(\"DOMContentLoaded\", function() {"
             echo "  document.querySelectorAll('pre').forEach(function(pre) {"
             echo "    // Evita duplicar a numeração se já existir"
             echo "    if (pre.querySelector('.line-number')) return;"
@@ -355,7 +355,7 @@ jobs:
             echo "    pre.appendChild(copyBtn);"
             echo "  });"
             echo "});"
-            echo "/* ### END part to custom JS */"
+            echo "// ### END part to custom JS"
           } >> "$SCRIPT_JS"
           echo "JS rules appended to script.js"
         else
