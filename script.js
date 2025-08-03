@@ -659,3 +659,42 @@
   });
 
 })();
+
+/* ### BEGIN part to custom JS from template ### */
+/* ### BEGIN part to custom script */
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('pre').forEach(function(pre) {
+    // Evita duplicar a numeração se já existir
+    if (pre.querySelector('.line-number')) return;
+
+    const lines = pre.textContent.split('\n');
+    const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('<br>');
+    const lineNumberDiv = document.createElement('div');
+    lineNumberDiv.className = 'line-number';
+    lineNumberDiv.innerHTML = lineNumbersHtml;
+
+    pre.style.position = 'relative'; // necessário para posicionar os números e botão
+
+    pre.insertBefore(lineNumberDiv, pre.firstChild);
+
+    // Criar e adicionar botão copiar
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.type = 'button';
+    copyBtn.textContent = 'Copiar';
+
+    copyBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        copyBtn.textContent = 'Copiado!';
+        setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+      }).catch(() => {
+        copyBtn.textContent = 'Erro';
+        setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 1500);
+      });
+    });
+
+    pre.appendChild(copyBtn);
+  });
+});
+/* ### END part to custom script */
+/* ### END part to custom JS from template ### */
