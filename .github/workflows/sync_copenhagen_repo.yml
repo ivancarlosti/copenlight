@@ -312,11 +312,11 @@ jobs:
           exit 1
         fi
 
-    - name: Append custom JS to style.js
+    - name: Append custom JS to script.js
       run: |
-        echo "== Appending custom JS rules to style.js =="
-        STYLE_JS="$GITHUB_WORKSPACE/style.js"
-        if [ -f "$STYLE_JS" ]; then
+        echo "== Appending custom JS rules to script.js =="
+        SCRIPT_JS="$GITHUB_WORKSPACE/script.js"
+        if [ -f "$SCRIPT_JS" ]; then
           {
             echo ""
             echo "/* ### BEGIN part to custom JS */"
@@ -356,10 +356,10 @@ jobs:
             echo "  });"
             echo "});"
             echo "/* ### END part to custom JS */"
-          } >> "$STYLE_JS"
-          echo "JS rules appended to style.js"
+          } >> "$SCRIPT_JS"
+          echo "JS rules appended to script.js"
         else
-          echo "style.js not found!"
+          echo "script.js not found!"
           exit 1
         fi
 
