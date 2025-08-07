@@ -1,4 +1,4 @@
-/* ===== Ocultando conteúdo social ===== */
+/* ===== Hiding social content ===== */
 .recent-activity-item-comment {
   display: none;
 }
@@ -20,11 +20,12 @@
 }
 
 .container {
-    max-width: 1300px !important;
+  max-width: 1300px !important;
 }
 
-/* ===== Container da página do artigo ===== */
-.article-container, #article-container {
+/* ===== Article page container ===== */
+.article-container,
+#article-container {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
@@ -39,8 +40,11 @@
   overflow-x: hidden !important;
 }
 
-/* ===== Artigo principal ===== */
-#main-content.article, .article, .article-body, #article-body {
+/* ===== Main article ===== */
+#main-content.article,
+.article,
+.article-body,
+#article-body {
   flex: 1 1 700px !important;
   max-width: 900px !important;
   min-width: 300px !important;
@@ -52,10 +56,9 @@
   line-height: 1.7 !important;
   box-sizing: border-box !important;
   overflow-wrap: break-word !important;
-  /* Impede barra de rolagem horizontal, força quebra de palavras */
 }
 
-/* ===== Sidebar lateral ===== */
+/* ===== Sidebar ===== */
 .zd-sidebar,
 .article-sidebar {
   flex: 0 0 260px !important;
@@ -71,7 +74,7 @@
   overflow-wrap: break-word !important;
 }
 
-/* ===== Responsividade ===== */
+/* ===== Responsiveness ===== */
 @media (max-width: 1150px) {
   .article-container,
   #article-container {
@@ -80,7 +83,10 @@
     max-width: 100% !important;
     padding: 0 6vw !important;
   }
-  #main-content.article, .article, .article-body, #article-body {
+  #main-content.article,
+  .article,
+  .article-body,
+  #article-body {
     max-width: 100% !important;
     padding: 18px 1vw !important;
     margin: 10px 0 !important;
@@ -95,14 +101,15 @@
   }
 }
 
-/* ===== Evita scroll horizontal da página ===== */
-html, body {
+/* ===== Prevent horizontal page scroll ===== */
+html,
+body {
   overflow-x: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* ===== Estilos gerais ===== */
+/* ===== General styles ===== */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
   background: #fafafa !important;
@@ -110,7 +117,10 @@ body {
   margin: 0 !important;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: #004080 !important;
   font-weight: 700 !important;
   margin-top: 0.5em !important;
@@ -123,7 +133,8 @@ a {
   transition: color 0.3s ease !important;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   color: #005a99 !important;
   text-decoration: none !important;
 }
@@ -134,10 +145,11 @@ p {
   word-break: break-word !important;
 }
 
-ul, ol {
-    margin-left: 0.5em !important;
-    margin-bottom: 1.1em !important;
-    font-size: 15px !important;
+ul,
+ol {
+  margin-left: 0.5em !important;
+  margin-bottom: 1.1em !important;
+  font-size: 15px !important;
 }
 
 ul li strong {
@@ -152,7 +164,8 @@ table {
   word-wrap: break-word !important;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd !important;
   padding: 10px !important;
   text-align: left !important;
@@ -163,7 +176,8 @@ th {
   color: white !important;
 }
 
-img, .article-body img {
+img,
+.article-body img {
   max-width: 100% !important;
   height: auto !important;
   border-radius: 7px !important;
@@ -171,12 +185,12 @@ img, .article-body img {
   margin: 1.5em 0 !important;
 }
 
-/* ===== Estilos para blocos <pre> com botão copiar ===== */
+/* ===== Styles for <pre> blocks with copy button ===== */
 pre {
   position: relative !important;
   background: #f7f9fc !important;
   border-left: 5px solid #007acc !important;
-  padding: 17px 20px 17px 20px !important; /* removido padding-left extra para linhas */
+  padding: 17px 20px 17px 20px !important;
   border-radius: 5px !important;
   margin-bottom: 2em !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
@@ -186,10 +200,9 @@ pre {
   overflow-x: auto !important;
   white-space: pre !important;
   word-break: break-word !important;
-  /* impede scroll horizontal duplo: conteúdo quebra ao invés de estourar */
 }
 
-/* Botão copiar dentro do <pre> */
+/* Copy button inside <pre> */
 pre .copy-btn {
   position: absolute !important;
   top: 12px !important;
@@ -208,20 +221,21 @@ pre .copy-btn {
   font-size: 16px !important;
 }
 
-pre .copy-btn:hover, pre .copy-btn:focus {
+pre .copy-btn:hover,
+pre .copy-btn:focus {
   background-color: rgba(0, 122, 204, 0.2) !important;
   outline: none !important;
   color: #005a99 !important;
 }
 
-/* Icon SVG dentro do botão, tamanho e cor */
+/* SVG icon inside the button, size and color */
 pre .copy-btn svg {
   width: 20px !important;
   height: 20px !important;
   fill: currentColor !important;
 }
 
-/* ===== Responsividade para pequenos dispositivos ===== */
+/* ===== Responsiveness for small devices ===== */
 @media (max-width: 900px) {
   #main-content.article,
   .article,
