@@ -121,10 +121,13 @@ a {
   transition: color 0.3s ease !important;
 }
 
-a:hover,
-a:focus {
+a:hover, a:focus {
   color: #005a99 !important;
   text-decoration: underline !important;
+}
+
+.logo a:hover {
+    text-decoration: none !important;
 }
 
 p {
