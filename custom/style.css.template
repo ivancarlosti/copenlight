@@ -50,7 +50,7 @@
 .article-body,
 #article-body {
   flex: 1 1 700px !important;
-  max-width: 900px !important;
+  max-width: 100% !important;
   min-width: 300px !important;
   width: 100% !important;
   background: #fff !important;
