@@ -19,9 +19,12 @@
   display: none;
 }
 
+.container {
+    max-width: 1300px !important;
+}
+
 /* ===== Container da página do artigo ===== */
-.article-container,
-#article-container {
+.article-container, #article-container {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
@@ -93,8 +96,7 @@
 }
 
 /* ===== Evita scroll horizontal da página ===== */
-html,
-body {
+html, body {
   overflow-x: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -123,11 +125,7 @@ a {
 
 a:hover, a:focus {
   color: #005a99 !important;
-  text-decoration: underline !important;
-}
-
-.logo a:hover {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 p {
@@ -154,8 +152,7 @@ table {
   word-wrap: break-word !important;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd !important;
   padding: 10px !important;
   text-align: left !important;
@@ -211,8 +208,7 @@ pre .copy-btn {
   font-size: 16px !important;
 }
 
-pre .copy-btn:hover,
-pre .copy-btn:focus {
+pre .copy-btn:hover, pre .copy-btn:focus {
   background-color: rgba(0, 122, 204, 0.2) !important;
   outline: none !important;
   color: #005a99 !important;
