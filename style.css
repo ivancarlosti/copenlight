@@ -4851,8 +4851,13 @@ zd-summary-block {
   display: none;
 }
 
+/* ===== Collumns size ===== */
 .container {
   max-width: 1300px !important;
+}
+
+.header {
+    max-width: 1300px !important;
 }
 
 /* ===== Article page container ===== */
