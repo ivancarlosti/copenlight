@@ -4860,6 +4860,15 @@ zd-summary-block {
     max-width: 1300px !important;
 }
 
+#main-content.article, .article, .article-body, #article-body {
+    max-width: 100% !important;
+}
+
+.article-container a:hover,
+#article-container a:hover {
+    text-decoration: underline !important;
+}
+
 /* ===== Article page container ===== */
 .article-container,
 #article-container {
