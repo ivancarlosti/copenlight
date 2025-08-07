@@ -4906,7 +4906,6 @@ zd-summary-block {
 /* ===== Sidebar ===== */
 .zd-sidebar,
 .article-sidebar {
-  flex: 0 0 260px !important;
   max-width: 260px !important;
   width: 100% !important;
   background: #f1f5f9 !important;
@@ -4926,7 +4925,6 @@ zd-summary-block {
     flex-direction: column !important;
     gap: 0 !important;
     max-width: 100% !important;
-    padding: 0 6vw !important;
   }
   #main-content.article,
   .article,
