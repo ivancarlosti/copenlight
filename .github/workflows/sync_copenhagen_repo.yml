@@ -1,5 +1,4 @@
 name: Sync CopenhagenTheme Repository
-
 on:
   workflow_dispatch:
   schedule:
@@ -10,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+      actions: write   # needed to call other workflows
     steps:
       - name: Checkout your repository
         uses: actions/checkout@v4
@@ -33,28 +32,22 @@ jobs:
           cd /tmp/copenhagen_temp
           git clone --branch master https://github.com/zendesk/copenhagen_theme.git
           echo "== Checking manifest.json version =="
-
           MANIFEST="/tmp/copenhagen_temp/copenhagen_theme/manifest.json"
           if [ ! -f "$MANIFEST" ]; then
             echo "No manifest.json file found, aborting sync."
             exit 0
           fi
-
           cat "$MANIFEST"
           VERSION=$(jq -r '.version // empty' "$MANIFEST")
-
           if [ -z "$VERSION" ]; then
             echo "No version defined in manifest.json, aborting sync."
             exit 0
           fi
-
           if echo "$VERSION" | grep -i 'beta'; then
             echo "Version is beta ($VERSION), aborting sync."
             exit 0
           fi
-
           echo "Version is $VERSION. Proceeding with sync."
-
           rsync -av \
             --exclude='.github' \
             --exclude='.git' \
@@ -64,7 +57,7 @@ jobs:
 
       - name: Debug manifest.json in workspace
         run: |
-          echo "=== manifest.json in your repo after sync ==="
+          echo "= manifest.json in your repo after sync ="
           cat "$GITHUB_WORKSPACE/manifest.json" || echo "manifest.json missing!"
 
       - name: Modify manifest.json
@@ -84,7 +77,6 @@ jobs:
         run: |
           STYLE_CSS="$GITHUB_WORKSPACE/style.css"
           CUSTOM_CSS="$GITHUB_WORKSPACE/custom/style.css.template"
-
           if [ -f "$STYLE_CSS" ] && [ -f "$CUSTOM_CSS" ]; then
             echo "== Appending custom CSS from template to style.css =="
             echo "" >> "$STYLE_CSS"
@@ -101,7 +93,6 @@ jobs:
         run: |
           SCRIPT_JS="$GITHUB_WORKSPACE/script.js"
           CUSTOM_JS="$GITHUB_WORKSPACE/custom/script.js.template"
-
           if [ -f "$SCRIPT_JS" ] && [ -f "$CUSTOM_JS" ]; then
             echo "== Appending custom JS from template to script.js =="
             echo "" >> "$SCRIPT_JS"
@@ -118,24 +109,26 @@ jobs:
         run: rm -rf /tmp/copenhagen_temp
 
       - name: Commit changes
+        id: commit_step
         run: |
           cd "$GITHUB_WORKSPACE"
           git config --global user.email "ivan@ivancarlos.com.br"
           git config --global user.name "ivancarlosti"
           git add .
-
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
-            exit 0
+            echo "changes_committed=false" >> $GITHUB_OUTPUT
           else
             git commit -m "Sync CopenhagenTheme content [▶️]"
             echo "Commit created"
+            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/ivancarlosti/copenlight.git HEAD:main
+            echo "Push successful"
+            echo "changes_committed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Push changes
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          git push \
-            https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/ivancarlosti/copenlight.git \
-            HEAD:main
-          echo "Push successful"
+      - name: Trigger Build, Push, Publish workflow
+        if: steps.commit_step.outputs.changes_committed == 'true'
+        uses: peter-evans/workflow-dispatch@v2
+        with:
+          workflow: release_build.yml
+          ref: main
