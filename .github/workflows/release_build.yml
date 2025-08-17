@@ -1,5 +1,4 @@
 name: Build, Push, Publish
-
 on:
   push:
     branches:
@@ -15,7 +14,6 @@ jobs:
     permissions:
       contents: write
       packages: write
-
     steps:
       - name: 📥 Checkout code with full history and tags
         uses: actions/checkout@v4
@@ -39,7 +37,6 @@ jobs:
         if: steps.check_commits.outputs.commit_count != '0'
         id: changed_files
         run: |
-          # Generate bullet list of changed files
           BULLET_LIST="$(git diff --name-only HEAD^ HEAD | sed 's/^/- /')"
           echo "CHANGED<<EOF" >> $GITHUB_OUTPUT
           echo "$BULLET_LIST" >> $GITHUB_OUTPUT
@@ -110,15 +107,12 @@ jobs:
         if: steps.check_commits.outputs.commit_count != '0'
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
-          VERSION_FILE="manifest.json"
           AUTHOR="Ivan Carlos"
+          VERSION_FILE="manifest.json"
+          # Always update to chosen NEW_VERSION (ensures manifest catches up)
           if [ -f "$VERSION_FILE" ]; then
-            HAS_VERSION=$(jq 'has("version")' "$VERSION_FILE")
-            if [ "$HAS_VERSION" = "true" ]; then
-              jq --arg v "$VERSION" --arg a "$AUTHOR" '.version = $v | .author = $a' "$VERSION_FILE" > tmp.json && mv tmp.json "$VERSION_FILE"
-            else
-              jq --arg v "$VERSION" --arg a "$AUTHOR" '. + {version: $v, author: $a}' "$VERSION_FILE" > tmp.json && mv tmp.json "$VERSION_FILE"
-            fi
+            jq --arg v "$VERSION" --arg a "$AUTHOR" \
+               '.version = $v | .author = $a' "$VERSION_FILE" > tmp.json && mv tmp.json "$VERSION_FILE"
           else
             echo "{ \"version\": \"$VERSION\", \"author\": \"$AUTHOR\" }" > "$VERSION_FILE"
           fi
@@ -147,7 +141,6 @@ jobs:
           body: |
             ### Changelog
             Files changed in this release:
-
             ${{ steps.changed_files.outputs.CHANGED }}
           files: ${{ steps.version.outputs.ZIP_NAME }}
 
