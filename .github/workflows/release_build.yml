@@ -1,4 +1,5 @@
 name: Build, Push, Publish
+
 on:
   push:
     branches:
@@ -18,6 +19,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+
     steps:
       - name: 📥 Checkout code with full history and tags
         uses: actions/checkout@v4
@@ -30,22 +32,28 @@ jobs:
           git fetch --tags
           echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
-      - name: Check if commits exist since latest tag
+      - name: Check if meaningful commits exist since latest tag
         id: check_commits
         run: |
           LATEST_TAG="${{ steps.get_tag.outputs.latest_tag }}"
-          COUNT=$(git rev-list ${LATEST_TAG}..HEAD --count)
-          echo "commit_count=$COUNT" >> $GITHUB_OUTPUT
+          # Get changed files since last tag, excluding manifest.json
+          CHANGED_FILES=$(git diff --name-only ${LATEST_TAG}..HEAD | grep -v '^manifest.json$' || true)
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "commit_count=1" >> $GITHUB_OUTPUT
+            echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          else
+            echo "commit_count=0" >> $GITHUB_OUTPUT
+          fi
 
       - name: 📃 Get list of changed files (Markdown bullet list)
         if: steps.check_commits.outputs.commit_count != '0'
         id: changed_files
         run: |
-          BULLET_LIST="$(git diff --name-only HEAD^ HEAD | sed 's/^/- /')"
+          BULLET_LIST="$(echo "${{ steps.check_commits.outputs.changed_files }}" | sed 's/^/- /')"
           echo "CHANGED<<EOF" >> $GITHUB_OUTPUT
           echo "$BULLET_LIST" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-          COUNT=$(git diff --name-only HEAD^ HEAD | wc -l)
+          COUNT=$(echo "${{ steps.check_commits.outputs.changed_files }}" | wc -l)
           echo "COUNT=$COUNT" >> $GITHUB_OUTPUT
 
       - name: Get latest release tag (from GitHub API)
@@ -113,7 +121,6 @@ jobs:
           VERSION="${{ steps.version.outputs.VERSION }}"
           AUTHOR="Ivan Carlos"
           VERSION_FILE="manifest.json"
-          # Always update to chosen NEW_VERSION (ensures manifest catches up)
           if [ -f "$VERSION_FILE" ]; then
             jq --arg v "$VERSION" --arg a "$AUTHOR" \
                '.version = $v | .author = $a' "$VERSION_FILE" > tmp.json && mv tmp.json "$VERSION_FILE"
@@ -148,7 +155,7 @@ jobs:
             ${{ steps.changed_files.outputs.CHANGED }}
           files: ${{ steps.version.outputs.ZIP_NAME }}
 
-      # ----- Docker steps (unchanged except for minor fixes) -----
+      # ----- Docker steps -----
       - name: 🔍 Check if Dockerfile exists
         if: steps.check_commits.outputs.commit_count != '0'
         id: dockerfile_check
