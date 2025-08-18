@@ -125,10 +125,3 @@ jobs:
             echo "Push successful"
             echo "changes_committed=true" >> $GITHUB_OUTPUT
           fi
-
-      - name: Trigger Build, Push, Publish workflow
-        if: steps.commit_step.outputs.changes_committed == 'true'
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          workflow: release_build.yml
-          ref: main
