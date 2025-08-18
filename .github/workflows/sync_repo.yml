@@ -1,4 +1,4 @@
-name: Sync CopenhagenTheme Repository
+name: Sync Repo
 on:
   workflow_dispatch:
   schedule:
