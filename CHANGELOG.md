@@ -1,3 +1,24 @@
+# [4.16.0](https://github.com/zendesk/copenhagen_theme/compare/v4.15.2...v4.16.0) (2025-11-20)
+
+
+### Bug Fixes
+
+* code review ([852fd2d](https://github.com/zendesk/copenhagen_theme/commit/852fd2dc2f1bb9fbff39d6c2eff383e4e98f2942))
+* eslint ([ce8c25d](https://github.com/zendesk/copenhagen_theme/commit/ce8c25df3f0ade49246a681e5f0262764a408422))
+* feedback in CR ([85bd8d0](https://github.com/zendesk/copenhagen_theme/commit/85bd8d04d8212400dad68be03302b05c247837ae))
+
+
+### Features
+
+* add serial number to option in lookupfield ([1f459c3](https://github.com/zendesk/copenhagen_theme/commit/1f459c364349e50aea40547c49a32d1ceed71f28))
+
+## [4.15.2](https://github.com/zendesk/copenhagen_theme/compare/v4.15.1...v4.15.2) (2025-11-20)
+
+
+### Bug Fixes
+
+* label should be taken from asset api ([6982b49](https://github.com/zendesk/copenhagen_theme/commit/6982b497fc0e6d2cbb54caaae0446d4c5869d3a1))
+
 ## [4.15.1](https://github.com/zendesk/copenhagen_theme/compare/v4.15.0...v4.15.1) (2025-11-19)
 
 
