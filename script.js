@@ -851,6 +851,14 @@ document.addEventListener("DOMContentLoaded", function() {
              options = responseData.data;
         } else if (responseData && Array.isArray(responseData.results)) {
              options = responseData.results;
+        } else if (responseData && responseData.message === 'Workflow was started') {
+             console.error("[DynamicForm] n8n Workflow returned 'started' instead of data. Check webhook settings.");
+             const error = document.createElement("div");
+             error.className = "dynamic-form-error";
+             error.innerText = "Configuration Error: Webhook response mode must be 'Last Node' (Sync).";
+             error.style.color = "red";
+             container.appendChild(error);
+             return;
         } else {
             console.error("[DynamicForm] Unexpected API response format:", responseData);
             // Show error in UI
@@ -964,7 +972,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.17
+    // Current Version: 22.0.19
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -973,7 +981,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.17";
+        versionDiv.innerText = "v22.0.19";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
