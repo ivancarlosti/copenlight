@@ -118,9 +118,12 @@ document.addEventListener("DOMContentLoaded", function() {
          anchorElement.parentNode.insertBefore(container, anchorElement.nextSibling);
     } else {
         // Fallback injection logic if needed
-        const mainForm = document.querySelector("form.request-form");
+        const mainForm = document.querySelector("form.request-form") || document.querySelector(".request-form"); // Helper for different themes
         if (mainForm) {
+            console.log("[DynamicForm] Injecting into main form container (top).");
             mainForm.insertBefore(container, mainForm.firstChild);
+        } else {
+             console.warn("[DynamicForm] Could not find a place to inject the container.");
         }
     }
 
@@ -187,31 +190,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Function to find the form element and init
   function checkAndInit() {
+    let formId = null;
+    let anchorElement = null;
+
     const formSelect = document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select");
     console.log("[DynamicForm] checkAndInit running. Form Select found:", formSelect ? "Yes" : "No", formSelect);
     
-    // If we have the dropdown, we can try to initialize
     if (formSelect) {
-        // If it's already running or injected, we might want to check if it matches current selection
-        // But simply, on load/change we run:
-        
-        // Remove old container if it exists (e.g. form changed)
-        const oldContainer = document.querySelector(".dynamic-form-container");
-        if (oldContainer) {
-             // Check if we need to remove it? 
-             // Ideally we just re-run injection if the ID changed.
-             // For now, let's rely on cleaning up inside injectDynamicForm? 
-             // No, injectDynamicForm returns if container exists. 
-             // So we must clear if the form ID is different. 
-             // Simplified: Always clear on init retry.
-             oldContainer.remove();
-        }
+        formId = formSelect.value;
+        anchorElement = formSelect;
+    } else {
+        // Fallback: Check URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        formId = urlParams.get('ticket_form_id');
+        console.log(`[DynamicForm] Fallback check. URL 'ticket_form_id': ${formId}`);
+    }
 
-        injectDynamicForm(formSelect.value, formSelect);
+    if (formId) {
+        // If we found an ID, try to inject. 
+        // Note: anchorElement might be null if we got ID from URL. 
+        // injectDynamicForm handles null anchorElement by prepending to form.
+        injectDynamicForm(formId, anchorElement);
 
-        // Attach listener if not already attached? 
-        // Use a weak map or property to avoid duplicate listeners?
-        if (!formSelect.dataset.dynamicFormListenerAttached) {
+        // Attach listener if we have a select element
+        if (formSelect && !formSelect.dataset.dynamicFormListenerAttached) {
             formSelect.addEventListener("change", function() {
                 // Clear existing on change
                 const existing = document.querySelector(".dynamic-form-container");
@@ -235,8 +237,11 @@ document.addEventListener("DOMContentLoaded", function() {
     for (const mutation of mutations) {
         if (mutation.type === 'childList') {
            // If the form select references appear
-           if (document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select")) {
-               console.log("[DynamicForm] MutationObserver detected form select.");
+           // If the form select references appear OR if the main form appears (re-hydration)
+           const formDetected = document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select") || document.querySelector("form.request-form");
+           
+           if (formDetected) {
+               console.log("[DynamicForm] MutationObserver detected form activity.");
                checkAndInit();
            }
         }
@@ -244,5 +249,18 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   observer.observe(observerTarget, { childList: true, subtree: true });
+});
+
+/* ===== Footer Version Injection ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // Current Version: 22.0.4
+    const footerInner = document.querySelector(".footer-inner");
+    if (footerInner && !document.querySelector(".footer-version-text")) {
+        const versionDiv = document.createElement("div");
+        versionDiv.className = "footer-version-text";
+        versionDiv.style.cssText = "font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
+        versionDiv.innerText = "v22.0.4";
+        footerInner.appendChild(versionDiv);
+    }
 });
 
