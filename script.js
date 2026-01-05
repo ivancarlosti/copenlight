@@ -922,9 +922,17 @@ document.addEventListener("DOMContentLoaded", function() {
         
         options.forEach(item => {
             const option = document.createElement("option");
-            option.value = item.value;
-            option.innerText = item.name || item.label; 
-            select.appendChild(option);
+            // Mapping for generic usage + user specific n8n response
+            // Priority: item.value -> item.common_ids -> item.id
+            const val = item.value || item.common_ids || item.id;
+            // Priority: item.name -> item.label -> item.common_ids -> item.id
+            const label = item.name || item.label || item.common_ids || item.id;
+
+            if (val) {
+                option.value = val;
+                option.innerText = label; 
+                select.appendChild(option);
+            }
         });
 
         select.addEventListener("change", function() {
@@ -1039,7 +1047,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.25
+    // Current Version: 22.0.27
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1048,7 +1056,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.25";
+        versionDiv.innerText = "v22.0.27";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
