@@ -739,4 +739,177 @@ document.addEventListener("DOMContentLoaded", function() {
     pre.appendChild(copyBtn);
   });
 });
+
+/* ===== Dynamic Form Injection Logic ===== */
+document.addEventListener("DOMContentLoaded", function() {
+  // CONFIGURATION START
+  // Map Form IDs to their specific configuration
+  const FORMS_CONFIG = {
+    "10380383729805": { // Example Form ID
+      type: "sharepoint",
+      webhookUrl: "https://workflow.ivancarlos.com.br/webhook/6339afb8-45c7-46f0-a857-41dc110cca73", // Replace with actual n8n webhook
+      targetFieldId: "request_custom_fields_42425886460045",   // Replace with actual field ID
+      label: "Select SharePoint Site"
+    },
+    // Add more forms here
+    // "123456789": { ... }
+  };
+  // CONFIGURATION END
+
+  // Core logic to inject the form
+  function injectDynamicForm(formId, anchorElement) {
+    if (!formId) return;
+
+    // Avoid duplicate injection
+    if (document.querySelector(".dynamic-form-container")) return;
+
+    const config = FORMS_CONFIG[formId];
+    if (!config) return;
+
+    // Create container
+    const container = document.createElement("div");
+    container.className = "dynamic-form-container";
+    
+    const label = document.createElement("label");
+    label.innerText = config.label || "Select Resource";
+    container.appendChild(label);
+
+    // Loader
+    const loader = document.createElement("div");
+    loader.className = "dynamic-form-loader";
+    container.appendChild(loader);
+
+    // Inject container
+    // If anchorElement (the select box) is provided, inject after it.
+    // Otherwise try to find the best place.
+    if (anchorElement && anchorElement.parentNode) {
+         anchorElement.parentNode.insertBefore(container, anchorElement.nextSibling);
+    } else {
+        // Fallback injection logic if needed
+        const mainForm = document.querySelector("form.request-form");
+        if (mainForm) {
+            mainForm.insertBefore(container, mainForm.firstChild);
+        }
+    }
+
+    // Mock User Organization ID
+    // In real Zendesk context, this is usually available via HelpCenter.user.organizations
+    let userOrgId = "unknown";
+    if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations && window.HelpCenter.user.organizations.length > 0) {
+        userOrgId = window.HelpCenter.user.organizations[0].id;
+    }
+
+    console.log(`[DynamicForm] Fetching for Form: ${formId}, Org: ${userOrgId}`);
+
+    // Fetch Data
+    fetch(config.webhookUrl + "?orgId=" + userOrgId)
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .catch(err => {
+        console.warn("[DynamicForm] Webhook failed, using mock data for demo", err);
+        // MOCK DATA RETURN
+        return [
+            { name: "Global Marketing Sharepoint", value: "https://sharepoint.com/marketing" },
+            { name: "IT Secure Drop", value: "https://sharepoint.com/it-secure" },
+            { name: "HR Archive", value: "https://sharepoint.com/hr-archive" }
+        ];
+      })
+      .then(data => {
+        loader.remove();
+        
+        const select = document.createElement("select");
+        select.innerHTML = `<option value="">- Select Option -</option>`;
+        
+        data.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.value;
+            option.innerText = item.name;
+            select.appendChild(option);
+        });
+
+        // Event listener to update real hidden field
+        select.addEventListener("change", function() {
+            const targetField = document.getElementById(config.targetFieldId);
+            if (targetField) {
+                targetField.value = this.value;
+                // Trigger change event for Zendesk validation
+                targetField.dispatchEvent(new Event('change', { bubbles: true }));
+            } else {
+                console.warn(`[DynamicForm] Target field #${config.targetFieldId} not found!`);
+            }
+        });
+
+        container.appendChild(select);
+      })
+      .catch(err => {
+        loader.remove();
+        const error = document.createElement("div");
+        error.className = "dynamic-form-error";
+        error.innerText = "Error loading options. Please contact support.";
+        container.appendChild(error);
+        console.error("[DynamicForm] Error:", err);
+      });
+  }
+
+  // Function to find the form element and init
+  function checkAndInit() {
+    const formSelect = document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select");
+    
+    // If we have the dropdown, we can try to initialize
+    if (formSelect) {
+        // If it's already running or injected, we might want to check if it matches current selection
+        // But simply, on load/change we run:
+        
+        // Remove old container if it exists (e.g. form changed)
+        const oldContainer = document.querySelector(".dynamic-form-container");
+        if (oldContainer) {
+             // Check if we need to remove it? 
+             // Ideally we just re-run injection if the ID changed.
+             // For now, let's rely on cleaning up inside injectDynamicForm? 
+             // No, injectDynamicForm returns if container exists. 
+             // So we must clear if the form ID is different. 
+             // Simplified: Always clear on init retry.
+             oldContainer.remove();
+        }
+
+        injectDynamicForm(formSelect.value, formSelect);
+
+        // Attach listener if not already attached? 
+        // Use a weak map or property to avoid duplicate listeners?
+        if (!formSelect.dataset.dynamicFormListenerAttached) {
+            formSelect.addEventListener("change", function() {
+                // Clear existing on change
+                const existing = document.querySelector(".dynamic-form-container");
+                if (existing) existing.remove();
+                
+                injectDynamicForm(this.value, this);
+            });
+            formSelect.dataset.dynamicFormListenerAttached = "true";
+        }
+    }
+  }
+
+  // Initial Check
+  checkAndInit();
+
+  // MutationObserver to watch for form injection (Zendesk often interacts via JS)
+  const observerTarget = document.getElementById("new-request-form") || document.body;
+  
+  const observer = new MutationObserver((mutations) => {
+    // Debounce or check efficiently
+    for (const mutation of mutations) {
+        if (mutation.type === 'childList') {
+           // If the form select references appear
+           if (document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select")) {
+               checkAndInit();
+           }
+        }
+    }
+  });
+
+  observer.observe(observerTarget, { childList: true, subtree: true });
+});
+
 /* ### END part to custom JS from template ### */
