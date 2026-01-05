@@ -149,21 +149,31 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // 2. Fallback to HelpCenter user object
+        // NOTE: Sometimes Zendesk themes don't populate 'id' in HelpCenter.user.organizations for end-users
         if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations) {
             if (window.HelpCenter.user.organizations.length > 0) {
                  const firstOrg = window.HelpCenter.user.organizations[0];
                  console.log("[DynamicForm] Checking HelpCenter org:", firstOrg);
+                 
+                 // Prefer ID if available
                  if (firstOrg.id) {
                      return firstOrg.id;
-                 } else {
-                     console.warn("[DynamicForm] HelpCenter org found but missing 'id' property.");
+                 } 
+                 // Fallback to Name if ID is missing (User Request)
+                 else if (firstOrg.name) {
+                     console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
+                     return firstOrg.name;
+                 }
+                 else {
+                     console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
                  }
             } else {
                  console.log("[DynamicForm] HelpCenter.user.organizations is empty.");
             }
         }
         
-        // 3. API Fallback
+        // 3. API Fallback (Last Resort)
+        // Note: Can fail with 400/403 depending on permissions
         try {
             console.log("[DynamicForm] Fetching Organization via API fallback...");
             const response = await fetch('/api/v2/users/me/organizations.json');
@@ -173,6 +183,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log(`[DynamicForm] API returned Org ID: ${data.organizations[0].id}`);
                     return data.organizations[0].id;
                 }
+            } else {
+                console.warn(`[DynamicForm] API Fallback failed with status: ${response.status}`);
             }
         } catch (e) {
             console.error("[DynamicForm] API fetch failed:", e);
@@ -187,7 +199,8 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log(`[DynamicForm] Fetching for Form: ${formId}, Org: ${userOrgId}`);
 
     // Fetch Data
-    fetch(config.webhookUrl + "?orgId=" + userOrgId)
+    // Ensure we encode the component in case it's a name with spaces
+    fetch(config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId))
       .then(response => {
         if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
