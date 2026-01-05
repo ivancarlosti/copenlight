@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // CONFIGURATION END
 
   // Core logic to inject the form
-  function injectDynamicForm(formId, anchorElement) {
+  async function injectDynamicForm(formId, anchorElement) {
     console.log(`[DynamicForm] injectDynamicForm called for Form ID: ${formId}`);
     if (!formId) return;
 
@@ -112,12 +112,10 @@ document.addEventListener("DOMContentLoaded", function() {
     container.appendChild(loader);
 
     // Inject container
-    // If anchorElement (the select box) is provided, inject after it.
-    // Otherwise try to find the best place.
     if (anchorElement && anchorElement.parentNode) {
          anchorElement.parentNode.insertBefore(container, anchorElement.nextSibling);
     } else {
-        // Fallback injection logic if needed
+        // Fallback injection logic
         const mainForm = document.querySelector("form.request-form") || 
                          document.querySelector(".request-form") || 
                          document.getElementById("new_request") || 
@@ -126,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function() {
                          
         if (mainForm) {
             console.log("[DynamicForm] Injecting into main form container (top).");
-            // Try to inject before the subject field if possible, otherwise top
             const subjectField = mainForm.querySelector(".request_subject");
             if (subjectField) {
                  mainForm.insertBefore(container, subjectField);
@@ -135,18 +132,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else {
              console.warn("[DynamicForm] Could not find a place to inject the container.");
-             // Don't return here? No, if we can't inject, we can't do anything.
-             // But maybe the mutation observer will retry later.
              return; 
         }
     }
 
     // Helper to get User Organization ID
-    function getUserOrganizationId() {
+    async function getUserOrganizationId() {
         // 1. Try to get from the UI Dropdown (most accurate as it is what the user Selected)
         const orgSelect = document.querySelector("select.request_organization_id") || 
                           document.querySelector("select#request_organization_id") ||
-                          document.querySelector(".request_organization select"); // Common Zendesk patterns
+                          document.querySelector(".request_organization select"); 
 
         if (orgSelect && orgSelect.value) {
              console.log(`[DynamicForm] Found Org ID from dropdown: ${orgSelect.value}`);
@@ -156,17 +151,38 @@ document.addEventListener("DOMContentLoaded", function() {
         // 2. Fallback to HelpCenter user object
         if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations) {
             if (window.HelpCenter.user.organizations.length > 0) {
-                 // Debugging: Log what we found
-                 console.dir(window.HelpCenter.user.organizations);
-                 return window.HelpCenter.user.organizations[0].id;
+                 const firstOrg = window.HelpCenter.user.organizations[0];
+                 console.log("[DynamicForm] Checking HelpCenter org:", firstOrg);
+                 if (firstOrg.id) {
+                     return firstOrg.id;
+                 } else {
+                     console.warn("[DynamicForm] HelpCenter org found but missing 'id' property.");
+                 }
+            } else {
+                 console.log("[DynamicForm] HelpCenter.user.organizations is empty.");
             }
         }
         
+        // 3. API Fallback
+        try {
+            console.log("[DynamicForm] Fetching Organization via API fallback...");
+            const response = await fetch('/api/v2/users/me/organizations.json');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.organizations && data.organizations.length > 0) {
+                    console.log(`[DynamicForm] API returned Org ID: ${data.organizations[0].id}`);
+                    return data.organizations[0].id;
+                }
+            }
+        } catch (e) {
+            console.error("[DynamicForm] API fetch failed:", e);
+        }
+
         console.warn("[DynamicForm] Could not determine User Organization ID.");
         return "undefined";
     }
 
-    let userOrgId = getUserOrganizationId();
+    let userOrgId = await getUserOrganizationId();
 
     console.log(`[DynamicForm] Fetching for Form: ${formId}, Org: ${userOrgId}`);
 
@@ -178,7 +194,6 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .catch(err => {
         console.warn("[DynamicForm] Webhook failed, using mock data for demo", err);
-        // MOCK DATA RETURN
         return [
             { name: "Global Marketing Sharepoint", value: "https://sharepoint.com/marketing" },
             { name: "IT Secure Drop", value: "https://sharepoint.com/it-secure" },
@@ -205,7 +220,6 @@ document.addEventListener("DOMContentLoaded", function() {
              return;
         } else {
             console.error("[DynamicForm] Unexpected API response format:", responseData);
-            // Show error in UI
             const error = document.createElement("div");
             error.className = "dynamic-form-error";
             error.innerText = "Error: Invalid data format from server.";
@@ -220,16 +234,14 @@ document.addEventListener("DOMContentLoaded", function() {
         options.forEach(item => {
             const option = document.createElement("option");
             option.value = item.value;
-            option.innerText = item.name || item.label; // Support 'name' or 'label'
+            option.innerText = item.name || item.label; 
             select.appendChild(option);
         });
 
-        // Event listener to update real hidden field
         select.addEventListener("change", function() {
             const targetField = document.getElementById(config.targetFieldId);
             if (targetField) {
                 targetField.value = this.value;
-                // Trigger change event for Zendesk validation
                 targetField.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
                 console.warn(`[DynamicForm] Target field #${config.targetFieldId} not found!`);
