@@ -94,11 +94,26 @@ jobs:
         run: |
           SCRIPT_JS="$GITHUB_WORKSPACE/script.js"
           CUSTOM_JS="$GITHUB_WORKSPACE/custom/script.js.template"
+          MANIFEST="$GITHUB_WORKSPACE/manifest.json"
+          
           if [ -f "$SCRIPT_JS" ] && [ -f "$CUSTOM_JS" ]; then
             echo "== Appending custom JS from template to script.js =="
+            
+            # Get version from manifest.json
+            if [ -f "$MANIFEST" ]; then
+              THEME_VERSION=$(jq -r '.version // "0.0.0"' "$MANIFEST")
+              echo "Injecting theme version: $THEME_VERSION"
+            else
+              THEME_VERSION="0.0.0"
+              echo "Manifest not found, using default version: $THEME_VERSION"
+            fi
+
             echo "" >> "$SCRIPT_JS"
             echo "/* ### BEGIN part to custom JS from template ### */" >> "$SCRIPT_JS"
-            cat "$CUSTOM_JS" >> "$SCRIPT_JS"
+            
+            # Replace placeholder with actual version and append
+            sed "s/{{THEME_VERSION}}/$THEME_VERSION/g" "$CUSTOM_JS" >> "$SCRIPT_JS"
+            
             echo "/* ### END part to custom JS from template ### */" >> "$SCRIPT_JS"
             echo "Custom JS appended successfully."
           else
