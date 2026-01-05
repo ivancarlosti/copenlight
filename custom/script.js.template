@@ -175,6 +175,14 @@ document.addEventListener("DOMContentLoaded", function() {
              options = responseData.data;
         } else if (responseData && Array.isArray(responseData.results)) {
              options = responseData.results;
+        } else if (responseData && responseData.message === 'Workflow was started') {
+             console.error("[DynamicForm] n8n Workflow returned 'started' instead of data. Check webhook settings.");
+             const error = document.createElement("div");
+             error.className = "dynamic-form-error";
+             error.innerText = "Configuration Error: Webhook response mode must be 'Last Node' (Sync).";
+             error.style.color = "red";
+             container.appendChild(error);
+             return;
         } else {
             console.error("[DynamicForm] Unexpected API response format:", responseData);
             // Show error in UI
