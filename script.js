@@ -817,12 +817,32 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Mock User Organization ID
-    // In real Zendesk context, this is usually available via HelpCenter.user.organizations
-    let userOrgId = "unknown";
-    if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations && window.HelpCenter.user.organizations.length > 0) {
-        userOrgId = window.HelpCenter.user.organizations[0].id;
+    // Helper to get User Organization ID
+    function getUserOrganizationId() {
+        // 1. Try to get from the UI Dropdown (most accurate as it is what the user Selected)
+        const orgSelect = document.querySelector("select.request_organization_id") || 
+                          document.querySelector("select#request_organization_id") ||
+                          document.querySelector(".request_organization select"); // Common Zendesk patterns
+
+        if (orgSelect && orgSelect.value) {
+             console.log(`[DynamicForm] Found Org ID from dropdown: ${orgSelect.value}`);
+             return orgSelect.value;
+        }
+
+        // 2. Fallback to HelpCenter user object
+        if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations) {
+            if (window.HelpCenter.user.organizations.length > 0) {
+                 // Debugging: Log what we found
+                 console.dir(window.HelpCenter.user.organizations);
+                 return window.HelpCenter.user.organizations[0].id;
+            }
+        }
+        
+        console.warn("[DynamicForm] Could not determine User Organization ID.");
+        return "undefined";
     }
+
+    let userOrgId = getUserOrganizationId();
 
     console.log(`[DynamicForm] Fetching for Form: ${formId}, Org: ${userOrgId}`);
 
@@ -928,7 +948,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // injectDynamicForm handles null anchorElement by prepending to form.
         injectDynamicForm(formId, anchorElement);
 
-        // Attach listener if we have a select element
+        // Attach listener if we have a select element (Ticket Form)
         if (formSelect && !formSelect.dataset.dynamicFormListenerAttached) {
             formSelect.addEventListener("change", function() {
                 // Clear existing on change
@@ -938,6 +958,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 injectDynamicForm(this.value, this);
             });
             formSelect.dataset.dynamicFormListenerAttached = "true";
+        }
+
+        // Attach listener to Organization Select if it exists
+        const orgSelect = document.querySelector("select.request_organization_id") || 
+                          document.querySelector("select#request_organization_id") ||
+                          document.querySelector(".request_organization select");
+                          
+        if (orgSelect && !orgSelect.dataset.dynamicFormOrgListenerAttached) {
+             console.log("[DynamicForm] Attaching change listener to Organization Select.");
+             orgSelect.addEventListener("change", function() {
+                 console.log("[DynamicForm] Organization changed. Re-fetching.");
+                 // Clear existing to force re-fetch with new Org ID
+                 const existing = document.querySelector(".dynamic-form-container");
+                 if (existing) existing.remove();
+
+                 // Re-inject (using current form ID)
+                 const currentFormId = formSelect ? formSelect.value : (new URLSearchParams(window.location.search).get('ticket_form_id'));
+                 if (currentFormId) {
+                     injectDynamicForm(currentFormId, formSelect || null);
+                 }
+             });
+             orgSelect.dataset.dynamicFormOrgListenerAttached = "true";
         }
     }
   }
@@ -972,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.19
+    // Current Version: 22.0.21
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -981,7 +1023,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.19";
+        versionDiv.innerText = "v22.0.21";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
