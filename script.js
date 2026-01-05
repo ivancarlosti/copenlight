@@ -794,12 +794,25 @@ document.addEventListener("DOMContentLoaded", function() {
          anchorElement.parentNode.insertBefore(container, anchorElement.nextSibling);
     } else {
         // Fallback injection logic if needed
-        const mainForm = document.querySelector("form.request-form") || document.querySelector(".request-form"); // Helper for different themes
+        const mainForm = document.querySelector("form.request-form") || 
+                         document.querySelector(".request-form") || 
+                         document.getElementById("new_request") || 
+                         document.querySelector("form[action*='/requests']");
+                         
         if (mainForm) {
             console.log("[DynamicForm] Injecting into main form container (top).");
-            mainForm.insertBefore(container, mainForm.firstChild);
+            // Try to inject before the subject field if possible, otherwise top
+            const subjectField = mainForm.querySelector(".request_subject");
+            if (subjectField) {
+                 mainForm.insertBefore(container, subjectField);
+            } else {
+                 mainForm.insertBefore(container, mainForm.firstChild);
+            }
         } else {
              console.warn("[DynamicForm] Could not find a place to inject the container.");
+             // Don't return here? No, if we can't inject, we can't do anything.
+             // But maybe the mutation observer will retry later.
+             return; 
         }
     }
 
@@ -827,16 +840,34 @@ document.addEventListener("DOMContentLoaded", function() {
             { name: "HR Archive", value: "https://sharepoint.com/hr-archive" }
         ];
       })
-      .then(data => {
+      .then(responseData => {
         loader.remove();
+        
+        let options = [];
+        if (Array.isArray(responseData)) {
+            options = responseData;
+        } else if (responseData && Array.isArray(responseData.data)) {
+             options = responseData.data;
+        } else if (responseData && Array.isArray(responseData.results)) {
+             options = responseData.results;
+        } else {
+            console.error("[DynamicForm] Unexpected API response format:", responseData);
+            // Show error in UI
+            const error = document.createElement("div");
+            error.className = "dynamic-form-error";
+            error.innerText = "Error: Invalid data format from server.";
+            error.style.color = "red";
+            container.appendChild(error);
+            return;
+        }
         
         const select = document.createElement("select");
         select.innerHTML = `<option value="">- Select Option -</option>`;
         
-        data.forEach(item => {
+        options.forEach(item => {
             const option = document.createElement("option");
             option.value = item.value;
-            option.innerText = item.name;
+            option.innerText = item.name || item.label; // Support 'name' or 'label'
             select.appendChild(option);
         });
 
@@ -855,10 +886,10 @@ document.addEventListener("DOMContentLoaded", function() {
         container.appendChild(select);
       })
       .catch(err => {
-        loader.remove();
+        if (loader.parentNode) loader.remove();
         const error = document.createElement("div");
         error.className = "dynamic-form-error";
-        error.innerText = "Error loading options. Please contact support.";
+        error.innerText = "Error loading options.";
         container.appendChild(error);
         console.error("[DynamicForm] Error:", err);
       });
@@ -914,7 +945,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (mutation.type === 'childList') {
            // If the form select references appear
            // If the form select references appear OR if the main form appears (re-hydration)
-           const formDetected = document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select") || document.querySelector("form.request-form");
+           const formDetected = document.querySelector(".request_ticket_form_id") || 
+                                document.getElementById("request_issue_type_select") || 
+                                document.querySelector("form.request-form") || 
+                                document.getElementById("new_request");
            
            if (formDetected) {
                console.log("[DynamicForm] MutationObserver detected form activity.");
@@ -929,7 +963,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 4.24.0
+    // Current Version: 22.0.14
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -938,7 +972,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v4.24.0";
+        versionDiv.innerText = "v22.0.14";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
