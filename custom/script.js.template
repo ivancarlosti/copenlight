@@ -246,9 +246,17 @@ document.addEventListener("DOMContentLoaded", function() {
         
         options.forEach(item => {
             const option = document.createElement("option");
-            option.value = item.value;
-            option.innerText = item.name || item.label; 
-            select.appendChild(option);
+            // Mapping for generic usage + user specific n8n response
+            // Priority: item.value -> item.common_ids -> item.id
+            const val = item.value || item.common_ids || item.id;
+            // Priority: item.name -> item.label -> item.common_ids -> item.id
+            const label = item.name || item.label || item.common_ids || item.id;
+
+            if (val) {
+                option.value = val;
+                option.innerText = label; 
+                select.appendChild(option);
+            }
         });
 
         select.addEventListener("change", function() {
