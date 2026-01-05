@@ -929,14 +929,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.4
+    // Current Version: 4.24.0
     const footerInner = document.querySelector(".footer-inner");
+    const langSelector = document.querySelector(".footer-language-selector");
+    
     if (footerInner && !document.querySelector(".footer-version-text")) {
         const versionDiv = document.createElement("div");
         versionDiv.className = "footer-version-text";
-        versionDiv.style.cssText = "font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.4";
-        footerInner.appendChild(versionDiv);
+        // Flex: 1 to push content, text-align center to center the text itself
+        versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
+        versionDiv.innerText = "v4.24.0";
+        
+        if (langSelector) {
+            footerInner.insertBefore(versionDiv, langSelector);
+        } else {
+            footerInner.appendChild(versionDiv);
+        }
     }
 });
 
