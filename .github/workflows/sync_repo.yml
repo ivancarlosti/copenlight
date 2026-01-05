@@ -21,6 +21,16 @@ jobs:
           clean: true
           persist-credentials: true
 
+      - name: Save current version
+        run: |
+          if [ -f manifest.json ]; then
+            CURRENT_VERSION=$(jq -r '.version // "1.0.0"' manifest.json)
+            echo "Current version in repo: $CURRENT_VERSION"
+            echo "PRESERVED_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+          else
+            echo "PRESERVED_VERSION=1.0.0" >> $GITHUB_ENV
+          fi
+
       - name: Reset Git remote
         run: |
           git remote remove origin || true
@@ -63,10 +73,11 @@ jobs:
 
       - name: Modify manifest.json
         run: |
-          echo "== Updating manifest.json with custom name and author =="
+          echo "== Updating manifest.json with custom name, author, and restoring version =="
           MANIFEST="$GITHUB_WORKSPACE/manifest.json"
           if [ -f "$MANIFEST" ]; then
-            jq '.name = "CopenLight" | .author = "Ivan Carlos"' "$MANIFEST" > "$MANIFEST.tmp" && mv "$MANIFEST.tmp" "$MANIFEST"
+            # Restore the version we saved before sync
+            jq --arg v "$PRESERVED_VERSION" '.name = "CopenLight" | .author = "Ivan Carlos" | .version = $v' "$MANIFEST" > "$MANIFEST.tmp" && mv "$MANIFEST.tmp" "$MANIFEST"
             echo "Updated manifest.json:"
             cat "$MANIFEST"
           else
