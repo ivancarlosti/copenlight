@@ -121,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const mainForm = document.querySelector("form.request-form") || 
                          document.querySelector(".request-form") || 
                          document.getElementById("new_request") || 
+                         document.getElementById("new-request-form") ||
                          document.querySelector("form[action*='/requests']");
                          
         if (mainForm) {
