@@ -742,6 +742,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Dynamic Form Injection Logic ===== */
 document.addEventListener("DOMContentLoaded", function() {
+  console.log("[DynamicForm] Script loaded and DOMContentLoaded fired.");
   // CONFIGURATION START
   // Map Form IDs to their specific configuration
   const FORMS_CONFIG = {
@@ -758,13 +759,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Core logic to inject the form
   function injectDynamicForm(formId, anchorElement) {
+    console.log(`[DynamicForm] injectDynamicForm called for Form ID: ${formId}`);
     if (!formId) return;
 
     // Avoid duplicate injection
-    if (document.querySelector(".dynamic-form-container")) return;
+    if (document.querySelector(".dynamic-form-container")) {
+        console.log("[DynamicForm] Container already exists. Skipping.");
+        return;
+    }
 
     const config = FORMS_CONFIG[formId];
-    if (!config) return;
+    if (!config) {
+        console.log(`[DynamicForm] No config found for Form ID: ${formId}`);
+        return;
+    }
 
     // Create container
     const container = document.createElement("div");
@@ -856,6 +864,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Function to find the form element and init
   function checkAndInit() {
     const formSelect = document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select");
+    console.log("[DynamicForm] checkAndInit running. Form Select found:", formSelect ? "Yes" : "No", formSelect);
     
     // If we have the dropdown, we can try to initialize
     if (formSelect) {
@@ -903,6 +912,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (mutation.type === 'childList') {
            // If the form select references appear
            if (document.querySelector(".request_ticket_form_id") || document.getElementById("request_issue_type_select")) {
+               console.log("[DynamicForm] MutationObserver detected form select.");
                checkAndInit();
            }
         }
