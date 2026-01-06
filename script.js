@@ -787,11 +787,51 @@ document.addEventListener("DOMContentLoaded", function() {
     loader.className = "dynamic-form-loader";
     container.appendChild(loader);
 
-    // Inject container
-    if (anchorElement && anchorElement.parentNode) {
-         anchorElement.parentNode.insertBefore(container, anchorElement.nextSibling);
+    // Inject container logic
+    let injectionTarget = anchorElement;
+    let injectPosition = "after"; // 'after' or 'before'
+
+    // If no explicit anchor (like the form selector dropdown), try to find the actual target field
+    if (!injectionTarget) {
+         const targetField = document.getElementById(config.targetFieldId) || 
+                             document.querySelector(`.${config.targetFieldId}`) || 
+                             document.querySelector(`input[name*="${config.targetFieldId}"]`);
+         
+         if (targetField) {
+             console.log(`[DynamicForm] Found target field '${config.targetFieldId}'. Using as injection anchor.`);
+             injectionTarget = targetField;
+             injectPosition = "before";
+             
+             // Hide the target field since we are replacing it with a dropdown
+             targetField.style.display = "none";
+             
+             // Try to hide the label as well if it's a standard Zendesk string
+             const targetFieldWrapper = targetField.closest(".form-field");
+             if (targetFieldWrapper) {
+                 // Perfect, we found the wrapper. Let's hide the wrapper entirely? 
+                 // No, we want to inject OUR container inside the wrapper or replace it?
+                 // Safer: Inject our container BEFORE the field inside the wrapper, and hide the field.
+                 // Actually, if we hide the field, we should usually keep the original label? 
+                 // But we are creating our own label in 'container' (line 106).
+                 // So we should probably hide the original label too.
+                 const originalLabel = targetFieldWrapper.querySelector("label");
+                 if (originalLabel) originalLabel.style.display = "none";
+             }
+         } else {
+             console.warn(`[DynamicForm] Target field '${config.targetFieldId}' NOT found in DOM. Check your Form Config IDs!`);
+         }
+    }
+
+    if (injectionTarget && injectionTarget.parentNode) {
+         if (injectPosition === "after") {
+             injectionTarget.parentNode.insertBefore(container, injectionTarget.nextSibling);
+         } else {
+              // Inject before (e.g. before the text field we are replacing)
+             injectionTarget.parentNode.insertBefore(container, injectionTarget);
+         }
+         console.log(`[DynamicForm] Injected container ${injectPosition} anchor element.`);
     } else {
-        // Fallback injection logic
+        // Fallback injection logic (Top of form)
         const mainForm = document.querySelector("form.request-form") || 
                          document.querySelector(".request-form") || 
                          document.getElementById("new_request") || 
@@ -799,7 +839,7 @@ document.addEventListener("DOMContentLoaded", function() {
                          document.querySelector("form[action*='/requests']");
                          
         if (mainForm) {
-            console.log("[DynamicForm] Injecting into main form container (top).");
+            console.log("[DynamicForm] Target/Anchor not found. Fallback: Injecting into main form container (top).");
             const subjectField = mainForm.querySelector(".request_subject");
             if (subjectField) {
                  mainForm.insertBefore(container, subjectField);
@@ -1026,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.39
+    // Current Version: 22.0.41
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1035,7 +1075,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.39";
+        versionDiv.innerText = "v22.0.41";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
