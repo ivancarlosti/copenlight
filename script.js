@@ -876,7 +876,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fetch Data
     // Ensure we encode the component in case it's a name with spaces
-    fetch(config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId))
+    const finalUrl = config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId);
+    console.log("[DynamicForm] Calling Webhook URL:", finalUrl);
+
+    fetch(finalUrl)
       .then(async response => {
         if (!response.ok) throw new Error("Network response was not ok");
         const text = await response.text();
@@ -1053,7 +1056,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.31
+    // Current Version: 22.0.33
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1062,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.31";
+        versionDiv.innerText = "v22.0.33";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
