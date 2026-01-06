@@ -835,11 +835,11 @@ document.addEventListener("DOMContentLoaded", function() {
                  if (firstOrg.id) {
                      return firstOrg.id;
                  } 
-                     // Fallback to Name if ID is missing (User Request)
-                 else if (firstOrg.name) {
-                     console.log(`[DynamicForm] Org ID missing in HelpCenter object. Will attempt API fetch.`);
-                     // Do NOT return name here; let it fall through to API
-                 }
+                  // Fallback to Name if ID is missing (User Request)
+                  else if (firstOrg.name) {
+                      console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
+                      return firstOrg.name;
+                  }
                  else {
                      console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
                  }
@@ -1056,7 +1056,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.33
+    // Current Version: 22.0.35
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1065,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.33";
+        versionDiv.innerText = "v22.0.35";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
