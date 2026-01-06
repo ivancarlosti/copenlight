@@ -835,10 +835,10 @@ document.addEventListener("DOMContentLoaded", function() {
                  if (firstOrg.id) {
                      return firstOrg.id;
                  } 
-                 // Fallback to Name if ID is missing (User Request)
+                     // Fallback to Name if ID is missing (User Request)
                  else if (firstOrg.name) {
-                     console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
-                     return firstOrg.name;
+                     console.log(`[DynamicForm] Org ID missing in HelpCenter object. Will attempt API fetch.`);
+                     // Do NOT return name here; let it fall through to API
                  }
                  else {
                      console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
@@ -877,9 +877,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // Fetch Data
     // Ensure we encode the component in case it's a name with spaces
     fetch(config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId))
-      .then(response => {
+      .then(async response => {
         if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
+        const text = await response.text();
+        console.log("[DynamicForm] Response Text:", text); // Debugging empty response
+        return text ? JSON.parse(text) : {};
       })
       .catch(err => {
         console.warn("[DynamicForm] Webhook failed, using mock data for demo", err);
@@ -1051,7 +1053,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.29
+    // Current Version: 22.0.31
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1060,7 +1062,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.29";
+        versionDiv.innerText = "v22.0.31";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
