@@ -812,52 +812,34 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Helper to get User Organization ID
+    // Helper to get User Organization Name
     async function getUserOrganizationId() {
-        // 1. Try to get from the UI Dropdown (most accurate as it is what the user Selected)
-        const orgSelect = document.querySelector("select.request_organization_id") || 
-                          document.querySelector("select#request_organization_id") ||
-                          document.querySelector(".request_organization select"); 
-
-        if (orgSelect && orgSelect.value) {
-             console.log(`[DynamicForm] Found Org ID from dropdown: ${orgSelect.value}`);
-             return orgSelect.value;
-        }
-
-        // 2. Fallback to HelpCenter user object
-        // NOTE: Sometimes Zendesk themes don't populate 'id' in HelpCenter.user.organizations for end-users
+        // Priority: HelpCenter user object
         if (window.HelpCenter && window.HelpCenter.user && window.HelpCenter.user.organizations) {
             if (window.HelpCenter.user.organizations.length > 0) {
                  const firstOrg = window.HelpCenter.user.organizations[0];
                  console.log("[DynamicForm] Checking HelpCenter org:", firstOrg);
                  
-                 // Prefer ID if available
-                 if (firstOrg.id) {
-                     return firstOrg.id;
-                 } 
-                  // Fallback to Name if ID is missing (User Request)
-                  else if (firstOrg.name) {
-                      console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
+                 // Always use Name as requested
+                 if (firstOrg.name) {
                       return firstOrg.name;
-                  }
-                 else {
-                     console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
+                 } else {
+                     console.warn("[DynamicForm] HelpCenter org found but missing 'name' property.");
                  }
             } else {
                  console.log("[DynamicForm] HelpCenter.user.organizations is empty.");
             }
         }
         
-        // 3. API Fallback (Last Resort)
-        // Note: Can fail with 400/403 depending on permissions
+        // API Fallback (Last Resort)
         try {
             console.log("[DynamicForm] Fetching Organization via API fallback...");
             const response = await fetch('/api/v2/users/me/organizations.json');
             if (response.ok) {
                 const data = await response.json();
                 if (data.organizations && data.organizations.length > 0) {
-                    console.log(`[DynamicForm] API returned Org ID: ${data.organizations[0].id}`);
-                    return data.organizations[0].id;
+                    console.log(`[DynamicForm] API returned Org Name: ${data.organizations[0].name}`);
+                    return data.organizations[0].name;
                 }
             } else {
                 console.warn(`[DynamicForm] API Fallback failed with status: ${response.status}`);
@@ -866,7 +848,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("[DynamicForm] API fetch failed:", e);
         }
 
-        console.warn("[DynamicForm] Could not determine User Organization ID.");
+        console.warn("[DynamicForm] Could not determine User Organization Name.");
         return "undefined";
     }
 
@@ -1002,27 +984,7 @@ document.addEventListener("DOMContentLoaded", function() {
             formSelect.dataset.dynamicFormListenerAttached = "true";
         }
 
-        // Attach listener to Organization Select if it exists
-        const orgSelect = document.querySelector("select.request_organization_id") || 
-                          document.querySelector("select#request_organization_id") ||
-                          document.querySelector(".request_organization select");
-                          
-        if (orgSelect && !orgSelect.dataset.dynamicFormOrgListenerAttached) {
-             console.log("[DynamicForm] Attaching change listener to Organization Select.");
-             orgSelect.addEventListener("change", function() {
-                 console.log("[DynamicForm] Organization changed. Re-fetching.");
-                 // Clear existing to force re-fetch with new Org ID
-                 const existing = document.querySelector(".dynamic-form-container");
-                 if (existing) existing.remove();
 
-                 // Re-inject (using current form ID)
-                 const currentFormId = formSelect ? formSelect.value : (new URLSearchParams(window.location.search).get('ticket_form_id'));
-                 if (currentFormId) {
-                     injectDynamicForm(currentFormId, formSelect || null);
-                 }
-             });
-             orgSelect.dataset.dynamicFormOrgListenerAttached = "true";
-        }
     }
   }
 
@@ -1056,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.35
+    // Current Version: 22.0.37
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1065,7 +1027,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.35";
+        versionDiv.innerText = "v22.0.37";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
