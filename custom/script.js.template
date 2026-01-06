@@ -159,11 +159,11 @@ document.addEventListener("DOMContentLoaded", function() {
                  if (firstOrg.id) {
                      return firstOrg.id;
                  } 
-                     // Fallback to Name if ID is missing (User Request)
-                 else if (firstOrg.name) {
-                     console.log(`[DynamicForm] Org ID missing in HelpCenter object. Will attempt API fetch.`);
-                     // Do NOT return name here; let it fall through to API
-                 }
+                  // Fallback to Name if ID is missing (User Request)
+                  else if (firstOrg.name) {
+                      console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
+                      return firstOrg.name;
+                  }
                  else {
                      console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
                  }
