@@ -891,13 +891,17 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(responseData => {
         loader.remove();
+        console.log("[DynamicForm] Raw response from n8n:", responseData);
         
         let options = [];
         if (Array.isArray(responseData)) {
+            console.log("[DynamicForm] Response is an Array. Length:", responseData.length);
             options = responseData;
         } else if (responseData && Array.isArray(responseData.data)) {
+             console.log("[DynamicForm] Response has .data Array. Length:", responseData.data.length);
              options = responseData.data;
         } else if (responseData && Array.isArray(responseData.results)) {
+             console.log("[DynamicForm] Response has .results Array. Length:", responseData.results.length);
              options = responseData.results;
         } else if (responseData && responseData.message === 'Workflow was started') {
              console.error("[DynamicForm] n8n Workflow returned 'started' instead of data. Check webhook settings.");
@@ -1047,7 +1051,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.27
+    // Current Version: 22.0.29
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1056,7 +1060,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.27";
+        versionDiv.innerText = "v22.0.29";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
