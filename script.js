@@ -909,8 +909,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         const select = document.createElement("select");
+        select.className = "form-control"; // Standard Zendesk/Bootstrap class
+        select.style.marginBottom = "10px";
         select.innerHTML = `<option value="">- Select Option -</option>`;
         
+        let addedCount = 0;
         options.forEach(item => {
             const option = document.createElement("option");
             // Mapping for generic usage + user specific n8n response
@@ -923,12 +926,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 option.value = val;
                 option.innerText = label; 
                 select.appendChild(option);
+                addedCount++;
+                console.log(`[DynamicForm] Option added: "${label}" = "${val}"`);
             }
         });
+        console.log(`[DynamicForm] Total options added to select: ${addedCount}`);
 
         select.addEventListener("change", function() {
             const targetField = document.getElementById(config.targetFieldId);
             if (targetField) {
+                console.log(`[DynamicForm] User selected: ${this.value}. Updating hidden field.`);
                 targetField.value = this.value;
                 targetField.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
@@ -937,6 +944,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         container.appendChild(select);
+        console.log("[DynamicForm] Dropdown successfully appended to container.");
       })
       .catch(err => {
         if (loader.parentNode) loader.remove();
@@ -1018,7 +1026,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.37
+    // Current Version: 22.0.39
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1027,7 +1035,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.37";
+        versionDiv.innerText = "v22.0.39";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
