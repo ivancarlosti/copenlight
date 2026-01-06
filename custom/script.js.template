@@ -233,8 +233,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         const select = document.createElement("select");
+        select.className = "form-control"; // Standard Zendesk/Bootstrap class
+        select.style.marginBottom = "10px";
         select.innerHTML = `<option value="">- Select Option -</option>`;
         
+        let addedCount = 0;
         options.forEach(item => {
             const option = document.createElement("option");
             // Mapping for generic usage + user specific n8n response
@@ -247,12 +250,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 option.value = val;
                 option.innerText = label; 
                 select.appendChild(option);
+                addedCount++;
+                console.log(`[DynamicForm] Option added: "${label}" = "${val}"`);
             }
         });
+        console.log(`[DynamicForm] Total options added to select: ${addedCount}`);
 
         select.addEventListener("change", function() {
             const targetField = document.getElementById(config.targetFieldId);
             if (targetField) {
+                console.log(`[DynamicForm] User selected: ${this.value}. Updating hidden field.`);
                 targetField.value = this.value;
                 targetField.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
@@ -261,6 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         container.appendChild(select);
+        console.log("[DynamicForm] Dropdown successfully appended to container.");
       })
       .catch(err => {
         if (loader.parentNode) loader.remove();
