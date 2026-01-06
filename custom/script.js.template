@@ -159,10 +159,10 @@ document.addEventListener("DOMContentLoaded", function() {
                  if (firstOrg.id) {
                      return firstOrg.id;
                  } 
-                 // Fallback to Name if ID is missing (User Request)
+                     // Fallback to Name if ID is missing (User Request)
                  else if (firstOrg.name) {
-                     console.log(`[DynamicForm] Org ID missing, using Name: ${firstOrg.name}`);
-                     return firstOrg.name;
+                     console.log(`[DynamicForm] Org ID missing in HelpCenter object. Will attempt API fetch.`);
+                     // Do NOT return name here; let it fall through to API
                  }
                  else {
                      console.warn("[DynamicForm] HelpCenter org found but missing 'id' and 'name' properties.");
@@ -201,9 +201,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // Fetch Data
     // Ensure we encode the component in case it's a name with spaces
     fetch(config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId))
-      .then(response => {
+      .then(async response => {
         if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
+        const text = await response.text();
+        console.log("[DynamicForm] Response Text:", text); // Debugging empty response
+        return text ? JSON.parse(text) : {};
       })
       .catch(err => {
         console.warn("[DynamicForm] Webhook failed, using mock data for demo", err);
