@@ -200,7 +200,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fetch Data
     // Ensure we encode the component in case it's a name with spaces
-    fetch(config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId))
+    const finalUrl = config.webhookUrl + "?orgId=" + encodeURIComponent(userOrgId);
+    console.log("[DynamicForm] Calling Webhook URL:", finalUrl);
+
+    fetch(finalUrl)
       .then(async response => {
         if (!response.ok) throw new Error("Network response was not ok");
         const text = await response.text();
