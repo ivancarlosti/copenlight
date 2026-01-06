@@ -1043,30 +1043,39 @@ document.addEventListener("DOMContentLoaded", function() {
   const observerTarget = document.getElementById("new-request-form") || document.body;
   
   const observer = new MutationObserver((mutations) => {
-    // Debounce or check efficiently
-    for (const mutation of mutations) {
-        if (mutation.type === 'childList') {
-           // If the form select references appear
-           // If the form select references appear OR if the main form appears (re-hydration)
-           const formDetected = document.querySelector(".request_ticket_form_id") || 
-                                document.getElementById("request_issue_type_select") || 
-                                document.querySelector("form.request-form") || 
-                                document.getElementById("new_request");
-           
-           if (formDetected) {
-               console.log("[DynamicForm] MutationObserver detected form activity.");
-               checkAndInit();
-           }
-        }
+    // Check if the Dynamic Form is currently in the DOM
+    const containerExists = document.querySelector(".dynamic-form-container");
+    const formDetected = document.querySelector(".request_ticket_form_id") || 
+                         document.querySelector("form.request-form") || 
+                         document.getElementById("new_request");
+
+    // If form is present but our container is GONE, we must re-init.
+    if (formDetected && !containerExists) {
+        console.log("[DynamicForm] Form detected but Dropdown missing. Re-initializing...");
+        checkAndInit();
     }
   });
 
   observer.observe(observerTarget, { childList: true, subtree: true });
+
+  // Polling Fallback: Zendesk sometimes re-renders without standard mutations bubbling effectively or overrides heavily.
+  // We check every 500ms if the form exists but our dropdown is missing.
+  setInterval(() => {
+     const containerExists = document.querySelector(".dynamic-form-container");
+     const formDetected = document.querySelector(".request_ticket_form_id") || 
+                          document.querySelector("form.request-form");
+     
+     if (formDetected && !containerExists) {
+         // Avoid log spam, only log if we are about to act
+         // console.log("[DynamicForm] Polling: Form found, Container missing. forcing init.");
+         checkAndInit();
+     }
+  }, 1000); // Check every second
 });
 
 /* ===== Footer Version Injection ===== */
 document.addEventListener("DOMContentLoaded", function() {
-    // Current Version: 22.0.41
+    // Current Version: 22.0.43
     const footerInner = document.querySelector(".footer-inner");
     const langSelector = document.querySelector(".footer-language-selector");
     
@@ -1075,7 +1084,7 @@ document.addEventListener("DOMContentLoaded", function() {
         versionDiv.className = "footer-version-text";
         // Flex: 1 to push content, text-align center to center the text itself
         versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
-        versionDiv.innerText = "v22.0.41";
+        versionDiv.innerText = "v22.0.43";
         
         if (langSelector) {
             footerInner.insertBefore(versionDiv, langSelector);
