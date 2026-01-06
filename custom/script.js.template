@@ -215,13 +215,17 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(responseData => {
         loader.remove();
+        console.log("[DynamicForm] Raw response from n8n:", responseData);
         
         let options = [];
         if (Array.isArray(responseData)) {
+            console.log("[DynamicForm] Response is an Array. Length:", responseData.length);
             options = responseData;
         } else if (responseData && Array.isArray(responseData.data)) {
+             console.log("[DynamicForm] Response has .data Array. Length:", responseData.data.length);
              options = responseData.data;
         } else if (responseData && Array.isArray(responseData.results)) {
+             console.log("[DynamicForm] Response has .results Array. Length:", responseData.results.length);
              options = responseData.results;
         } else if (responseData && responseData.message === 'Workflow was started') {
              console.error("[DynamicForm] n8n Workflow returned 'started' instead of data. Check webhook settings.");
