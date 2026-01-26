@@ -1,10 +1,6 @@
 # CopenLight theme by Ivan Carlos
 The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the default Zendesk Guide theme. This fork is built to allow insertion of code on style.css, script.js files preserving Copenhagen updates.
 
-<!-- buttons -->
-
-<!-- endbuttons -->
-
 ## Instructions
 
 * Fork this repository
