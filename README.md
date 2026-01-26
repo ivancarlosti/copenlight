@@ -25,10 +25,9 @@ The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the defau
 * For personal support and queries, please submit a new issue to have it addressed.
 * For commercial related questions, please [**contact me**][ivancarlos] for consulting costs. 
 
-## 🩷 Project support
-| If you found this project helpful, consider |
+| 🩷 Project support |
 | :---: |
-[**buying me a coffee**][buymeacoffee], [**donate by paypal**][paypal], [**sponsor this project**][sponsor] or just [**leave a star**](../..)⭐
+If you found this project helpful, consider [**buying me a coffee**][buymeacoffee]
 |Thanks for your support, it is much appreciated!|
 
 [cc]: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project
