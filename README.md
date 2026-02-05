@@ -33,7 +33,7 @@ If you found this project helpful, consider [**buying me a coffee**][buymeacoffe
 [it]: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser
 [prt]: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository
 [funding]: https://docs.github.com/en/articles/displaying-a-sponsor-button-in-your-repository
-[ivancarlos]: https://ivancarlos.it
-[buymeacoffee]: https://www.buymeacoffee.com/ivancarlos
+[ivancarlos]: https://ivancarlos.me
+[buymeacoffee]: https://buymeacoffee.com/ivancarlos
 [paypal]: https://icc.gg/donate
 [sponsor]: https://github.com/sponsors/ivancarlosti
