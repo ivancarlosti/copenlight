@@ -1,7 +1,7 @@
 {
   "name": "CopenLight",
   "author": "Ivan Carlos",
-  "version": "32.0.1",
+  "version": "33.0.0",
   "api_version": 4,
   "default_locale": "en-us",
   "settings": [
