@@ -115,7 +115,7 @@
 /* ===== Prevent horizontal page scroll ===== */
 html,
 body {
-  overflow-x: hidden !important;
+/*  overflow-x: hidden !important; */
   margin: 0 !important;
   padding: 0 !important;
 }
