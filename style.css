@@ -5159,4 +5159,10 @@ pre .copy-btn svg {
   margin-top: 10px;
 }
 
+/* ===== Fix Articke code box ===== */
+.article-body pre {
+  max-height: 15em;
+  overflow-y: auto;
+  overflow-x: auto;
+}
 /* ### END part to custom style from template ### */
