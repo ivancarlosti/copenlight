@@ -346,3 +346,7 @@ figure.wysiwyg-image {
     margin-top: 10px;
   }
 }
+
+.footer {
+    margin-top: 10px !important;
+}
