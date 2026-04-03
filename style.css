@@ -5202,4 +5202,8 @@ figure.wysiwyg-image {
     margin-top: 10px;
   }
 }
+
+.footer {
+    margin-top: 30px !important;
+}
 /* ### END part to custom style from template ### */
