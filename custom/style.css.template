@@ -107,7 +107,7 @@
   .zd-sidebar,
   .article-sidebar {
     max-width: 100% !important;
-    margin: 0 0 24px 0 !important;
+    /*  margin: 0 0 24px 0 !important; */
     border-radius: 8px !important;
   }
 }
@@ -315,7 +315,7 @@ pre .copy-btn svg {
   margin-top: 10px;
 }
 
-/* ===== Fix Articke code box ===== */
+/* ===== Fix Article code box ===== */
 .article-body pre {
   max-height: 15em;
   overflow-y: auto;
@@ -335,4 +335,14 @@ figure.wysiwyg-image {
     text-align: center !important;
     font-style: italic !important;
     font-size: 14px !important;
+}
+
+.sub-nav {
+    margin-bottom: unset !important;
+}
+
+@media (min-width: 1024px) {
+  .nav-wrapper-desktop {
+    margin-top: 10px;
+  }
 }
