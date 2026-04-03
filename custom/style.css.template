@@ -334,5 +334,5 @@ figure.wysiwyg-image {
     padding: 3px !important;
     text-align: center !important;
     font-style: italic !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
 }
