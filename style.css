@@ -5178,9 +5178,13 @@ pre .copy-btn svg {
   overflow-x: auto;
 }
 
+figure.wysiwyg-image img {
+    box-shadow: none !important;
+}
+
 figure.wysiwyg-image {
     border: thin silver solid !important;
-    display: flex !important;
+    /* display: flex !important; */
     flex-flow: column !important;
     padding: 5px !important;
 }
