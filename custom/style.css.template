@@ -354,3 +354,9 @@ figure.wysiwyg-image {
 .footer {
     margin-top: 30px !important;
 }
+
+@media (max-width: 900px) {
+  .footer-version-text {
+    display: none;
+  }
+}
