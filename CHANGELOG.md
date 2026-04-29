@@ -1,3 +1,10 @@
+## [4.36.1](https://github.com/zendesk/copenhagen_theme/compare/v4.36.0...v4.36.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* hide uncategorized ([6cc1b7c](https://github.com/zendesk/copenhagen_theme/commit/6cc1b7c42899d733a6c9f404df5d78eba6c446dd))
+
 # [4.36.0](https://github.com/zendesk/copenhagen_theme/compare/v4.35.1...v4.36.0) (2026-04-17)
 
 
