@@ -1,3 +1,18 @@
+# [4.39.0](https://github.com/zendesk/copenhagen_theme/compare/v4.38.0...v4.39.0) (2026-05-11)
+
+
+### Features
+
+* preview service catalog ([c9e1bbc](https://github.com/zendesk/copenhagen_theme/commit/c9e1bbca71cafe6097566ddbef41810c4f5c4326))
+
+# [4.38.0](https://github.com/zendesk/copenhagen_theme/compare/v4.37.2...v4.38.0) (2026-05-11)
+
+
+### Features
+
+* filter ticket fields by current brand form ([6b9b49c](https://github.com/zendesk/copenhagen_theme/commit/6b9b49cd95127288c267ae3156205311636a10a4))
+* request only active ticket forms ([2c1f91b](https://github.com/zendesk/copenhagen_theme/commit/2c1f91bd61df1800a810df10252245da4eb664e2))
+
 ## [4.37.2](https://github.com/zendesk/copenhagen_theme/compare/v4.37.1...v4.37.2) (2026-05-07)
 
 
