@@ -1,3 +1,17 @@
+# [4.41.0](https://github.com/zendesk/copenhagen_theme/compare/v4.40.0...v4.41.0) (2026-05-14)
+
+
+### Features
+
+* add sorting in service catalog items ([374a934](https://github.com/zendesk/copenhagen_theme/commit/374a93499619293bde44e84bc048449ba878a90f))
+
+# [4.40.0](https://github.com/zendesk/copenhagen_theme/compare/v4.39.0...v4.40.0) (2026-05-14)
+
+
+### Features
+
+* add counting to category ([57c1b0a](https://github.com/zendesk/copenhagen_theme/commit/57c1b0a445980e04e21799e3483fb146355610cc))
+
 # [4.39.0](https://github.com/zendesk/copenhagen_theme/compare/v4.38.0...v4.39.0) (2026-05-11)
 
 
