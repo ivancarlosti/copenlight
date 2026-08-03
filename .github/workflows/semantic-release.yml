@@ -56,7 +56,11 @@ jobs:
             --title "${TAG}" \
             --notes "Manual release ${TAG}" \
             --target main
-          echo "✅ Manual release ${TAG} created — build.yml triggers automatically via release:published event."
+          echo "✅ GitHub Release ${TAG} created."
+          echo "Dispatching build.yml for version ${TAG}"
+          gh workflow run build.yml -f version="${TAG}"
+          echo "Dispatching wordpress-deploy.yml for version ${TAG}"
+          gh workflow run wordpress-deploy.yml -f version="${TAG}" || true
           echo "new_release_version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "new_release_published=true" >> "$GITHUB_OUTPUT"
 
