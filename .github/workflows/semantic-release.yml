@@ -61,35 +61,36 @@ jobs:
             @semantic-release/changelog@^6 \
             conventional-changelog-conventionalcommits@^7
 
-      - name: 🔧 Ensure .releaserc exists
+      - name: 🔧 Ensure valid branch config
+        env:
+          RELEASE_BRANCH: ${{ steps.branch.outputs.default_branch }}
         run: |
-          if [ ! -f .releaserc ]; then
-            echo 'No .releaserc found — generating default config.'
-            cat > .releaserc << 'RELEASERC'
-          {
-            "branches": ["__DEFAULT_BRANCH__"],
-            "plugins": [
-              ["@semantic-release/commit-analyzer", {
-                "preset": "conventionalcommits"
-              }],
-              ["@semantic-release/release-notes-generator", {
-                "preset": "conventionalcommits"
-              }],
-              "@semantic-release/github"
-            ]
-          }
-          RELEASERC
-            sed -i "s/__DEFAULT_BRANCH__/${{ steps.branch.outputs.default_branch }}/" .releaserc
-            echo "Generated .releaserc for branch: ${{ steps.branch.outputs.default_branch }}"
-          else
-            echo 'Using existing .releaserc configuration.'
-          fi
+          node -e "
+            const fs = require('fs');
+            let config;
+            if (fs.existsSync('.releaserc')) {
+              config = JSON.parse(fs.readFileSync('.releaserc', 'utf8'));
+              console.log('Existing .releaserc found — updating branches to:', process.env.RELEASE_BRANCH);
+            } else {
+              config = {
+                plugins: [
+                  ['@semantic-release/commit-analyzer', { preset: 'conventionalcommits' }],
+                  ['@semantic-release/release-notes-generator', { preset: 'conventionalcommits' }],
+                  '@semantic-release/github'
+                ]
+              };
+              console.log('No .releaserc found — generating default config.');
+            }
+            config.branches = [process.env.RELEASE_BRANCH];
+            fs.writeFileSync('.releaserc', JSON.stringify(config, null, 2) + '\n');
+            console.log('Release branch configured:', process.env.RELEASE_BRANCH);
+          "
 
       - name: 🚀 Run semantic-release
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release --debug --branches "${{ steps.branch.outputs.default_branch }}"
+        run: semantic-release --debug
 
       - name: 🔍 Read released version
         id: version
