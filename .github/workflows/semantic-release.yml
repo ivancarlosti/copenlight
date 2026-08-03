@@ -35,7 +35,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🟢 Setup Node.js
+      - name: 🔐 Redirect SSH git URLs to HTTPS
+        run: |
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          echo "git SSH→HTTPS redirect configured. All GitHub operations will use HTTPS + GITHUB_TOKEN."
+
+      - name: � Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
