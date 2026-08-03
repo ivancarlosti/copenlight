@@ -40,14 +40,26 @@ jobs:
         with:
           node-version: 'lts/*'
 
+      - name: 🔍 Detect default branch
+        id: branch
+        run: |
+          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | awk '{print $NF}')
+          if [ -z "$DEFAULT_BRANCH" ]; then
+            echo "::error::Unable to determine default branch from remote"
+            exit 1
+          fi
+          echo "default_branch=${DEFAULT_BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "Detected default branch: ${DEFAULT_BRANCH}"
+
       - name: 📦 Install semantic-release + plugins
         run: |
           npm install -g \
-            semantic-release \
-            @semantic-release/exec \
-            @semantic-release/git \
-            @semantic-release/github \
-            conventional-changelog-conventionalcommits
+            semantic-release@^21 \
+            @semantic-release/exec@^6 \
+            @semantic-release/git@^10 \
+            @semantic-release/github@^9 \
+            @semantic-release/changelog@^6 \
+            conventional-changelog-conventionalcommits@^7
 
       - name: 🔧 Ensure .releaserc exists
         run: |
@@ -55,7 +67,7 @@ jobs:
             echo 'No .releaserc found — generating default config.'
             cat > .releaserc << 'RELEASERC'
           {
-            "branches": ["main"],
+            "branches": ["__DEFAULT_BRANCH__"],
             "plugins": [
               ["@semantic-release/commit-analyzer", {
                 "preset": "conventionalcommits"
@@ -63,17 +75,12 @@ jobs:
               ["@semantic-release/release-notes-generator", {
                 "preset": "conventionalcommits"
               }],
-              ["@semantic-release/exec", {
-                "prepareCmd": "echo ${nextRelease.version} > .version && sed -i \"s/\\\"version\\\": \\\".*\\\"/\\\"version\\\": \\\"${nextRelease.version}\\\"/\" manifest.json && sed -i \"s/^ \\* Version: .*/ * Version:           ${nextRelease.version}/\" icc-openid-client.php && sed -i \"s/const VERSION = '.*';/const VERSION = '${nextRelease.version}';/\" icc-openid-client.php"
-              }],
-              ["@semantic-release/git", {
-                "assets": ["manifest.json", "icc-openid-client.php"],
-                "message": "chore(release): bump version to ${nextRelease.version} [skip ci]"
-              }],
               "@semantic-release/github"
             ]
           }
           RELEASERC
+            sed -i "s/__DEFAULT_BRANCH__/${{ steps.branch.outputs.default_branch }}/" .releaserc
+            echo "Generated .releaserc for branch: ${{ steps.branch.outputs.default_branch }}"
           else
             echo 'Using existing .releaserc configuration.'
           fi
@@ -82,7 +89,7 @@ jobs:
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release --debug
+        run: semantic-release --debug --branches "${{ steps.branch.outputs.default_branch }}"
 
       - name: 🔍 Read released version
         id: version
