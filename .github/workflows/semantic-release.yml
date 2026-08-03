@@ -95,7 +95,7 @@ jobs:
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release --debug
+        run: semantic-release --debug --repository-url "https://github.com/${{ github.repository }}.git"
 
       - name: 🔍 Read released version
         id: version
