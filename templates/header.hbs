@@ -51,7 +51,11 @@
           {{contact_details role="menuitem"}}
           {{change_password role="menuitem"}}
           <div class="separator" role="separator"></div>
-          {{link "sign_out" role="menuitem"}}
+          {{#if settings.logout_url}}
+            {{link "sign_out" role="menuitem" data-custom-logout=settings.logout_url}}
+          {{else}}
+            {{link "sign_out" role="menuitem"}}
+          {{/if}}
         </div>
       </div>
     {{/if}}
@@ -100,7 +104,11 @@
         <li class="nav-divider"></li>
         {{#if signed_in}}
           <li class="item">
-            {{link "sign_out"}}
+            {{#if settings.logout_url}}
+              {{link "sign_out" data-custom-logout=settings.logout_url}}
+            {{else}}
+              {{link "sign_out"}}
+            {{/if}}
           </li>
         {{/if}}
        
@@ -115,3 +123,17 @@
   </div>
 
 </header>
+
+<script>
+  (function () {
+    var placeholder = ["{", "{", "ACTUALPAGE", "}", "}"].join("");
+    var links = document.querySelectorAll("[data-custom-logout]");
+    for (var i = 0; i < links.length; i += 1) {
+      var customUrl = links[i].getAttribute("data-custom-logout") || "";
+      if (customUrl.indexOf(placeholder) !== -1) {
+        links[i].setAttribute("href", customUrl.split(placeholder).join(window.location.href));
+      }
+      links[i].removeAttribute("data-custom-logout");
+    }
+  })();
+</script>
