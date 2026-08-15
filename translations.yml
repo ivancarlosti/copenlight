@@ -423,38 +423,3 @@ parts:
       screenshot: "https://drive.google.com/file/d/18d736vhJIuaYHO_uPeg9E4IBaVnJCoVM/view?usp=sharing"
       value: "Requests list"
       obsolete: "2026-04-01"
-  - translation:
-      key: "txt.help_center_copenhagen_theme.custom_group_label"
-      title: "Label for the custom settings group"
-      screenshot: ""
-      value: "Custom"
-  - translation:
-      key: "txt.help_center_copenhagen_theme.logout_url_label"
-      title: "Label for the logout URL setting"
-      screenshot: ""
-      value: "Logout URL"
-  - translation:
-      key: "txt.help_center_copenhagen_theme.logout_url_description"
-      title: "Description for the logout URL setting"
-      screenshot: ""
-      value: "Custom sign-out URL. Use the placeholder {{ACTUALPAGE}} to insert the current page URL. Leave empty to use the default sign-out link."
-  - translation:
-      key: "txt.help_center_copenhagen_theme.inject_script_label"
-      title: "Label for the inject script.js setting"
-      screenshot: ""
-      value: "Inject script.js"
-  - translation:
-      key: "txt.help_center_copenhagen_theme.inject_script_description"
-      title: "Description for the inject script.js setting"
-      screenshot: ""
-      value: "Custom JavaScript to inject into every page."
-  - translation:
-      key: "txt.help_center_copenhagen_theme.inject_style_label"
-      title: "Label for the inject style.css setting"
-      screenshot: ""
-      value: "Inject style.css"
-  - translation:
-      key: "txt.help_center_copenhagen_theme.inject_style_description"
-      title: "Description for the inject style.css setting"
-      screenshot: ""
-      value: "Custom CSS to inject into every page."

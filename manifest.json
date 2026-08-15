@@ -409,32 +409,6 @@
           "value": true
         }
       ]
-    },
-    {
-      "label": "custom_group_label",
-      "variables": [
-        {
-          "identifier": "logout_url",
-          "type": "text",
-          "description": "logout_url_description",
-          "label": "logout_url_label",
-          "value": ""
-        },
-        {
-          "identifier": "inject_script",
-          "type": "textarea",
-          "description": "inject_script_description",
-          "label": "inject_script_label",
-          "value": ""
-        },
-        {
-          "identifier": "inject_style",
-          "type": "textarea",
-          "description": "inject_style_description",
-          "label": "inject_style_label",
-          "value": ""
-        }
-      ]
     }
   ]
 }
