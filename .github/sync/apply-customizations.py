@@ -20,17 +20,15 @@ CUSTOM_GROUP = {
         },
         {
             "identifier": "inject_script",
-            "type": "text",
+            "type": "file",
             "description": "inject_script_description",
             "label": "inject_script_label",
-            "value": "",
         },
         {
             "identifier": "inject_style",
-            "type": "text",
+            "type": "file",
             "description": "inject_style_description",
             "label": "inject_style_label",
-            "value": "",
         },
     ],
 }
@@ -44,9 +42,9 @@ TRANSLATIONS = [
         "Custom sign-out URL. Use the placeholder {{ACTUALPAGE}} to insert the current page URL. Leave empty to use the default sign-out link.",
     ),
     ("inject_script_label", "Label for the inject script.js setting", "Inject script.js"),
-    ("inject_script_description", "Description for the inject script.js setting", "Custom JavaScript to inject into every page."),
+    ("inject_script_description", "Description for the inject script.js setting", "Upload a JavaScript file to inject into every page."),
     ("inject_style_label", "Label for the inject style.css setting", "Inject style.css"),
-    ("inject_style_description", "Description for the inject style.css setting", "Custom CSS to inject into every page."),
+    ("inject_style_description", "Description for the inject style.css setting", "Upload a CSS file to inject into every page."),
 ]
 
 
@@ -148,14 +146,10 @@ def update_document_head():
     if "inject_style" not in text:
         blocks = (
             "{{#if settings.inject_style}}\n"
-            "  <style>\n"
-            "    {{{settings.inject_style}}}\n"
-            "  </style>\n"
+            '  <link rel="stylesheet" href="{{settings.inject_style}}">\n'
             "{{/if}}\n"
             "{{#if settings.inject_script}}\n"
-            "  <script>\n"
-            "    {{{settings.inject_script}}}\n"
-            "  </script>\n"
+            '  <script src="{{settings.inject_script}}"></script>\n'
             "{{/if}}\n"
         )
         if not text.endswith("\n"):

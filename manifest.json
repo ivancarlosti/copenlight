@@ -422,17 +422,15 @@
         },
         {
           "identifier": "inject_script",
-          "type": "text",
+          "type": "file",
           "description": "inject_script_description",
-          "label": "inject_script_label",
-          "value": ""
+          "label": "inject_script_label"
         },
         {
           "identifier": "inject_style",
-          "type": "text",
+          "type": "file",
           "description": "inject_style_description",
-          "label": "inject_style_label",
-          "value": ""
+          "label": "inject_style_label"
         }
       ]
     }

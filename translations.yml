@@ -447,7 +447,7 @@ parts:
       key: "txt.help_center_copenhagen_theme.inject_script_description"
       title: "Description for the inject script.js setting"
       screenshot: ""
-      value: "Custom JavaScript to inject into every page."
+      value: "Upload a JavaScript file to inject into every page."
   - translation:
       key: "txt.help_center_copenhagen_theme.inject_style_label"
       title: "Label for the inject style.css setting"
@@ -457,4 +457,4 @@ parts:
       key: "txt.help_center_copenhagen_theme.inject_style_description"
       title: "Description for the inject style.css setting"
       screenshot: ""
-      value: "Custom CSS to inject into every page."
+      value: "Upload a CSS file to inject into every page."
