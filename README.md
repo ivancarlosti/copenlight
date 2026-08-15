@@ -1,5 +1,5 @@
 # CopenLight theme by Ivan Carlos
-The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the default Zendesk Guide theme. This fork is built to allow insertion of code on style.css, script.js files preserving Copenhagen updates.
+The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the default Zendesk Guide theme. This fork extends it with theme-customization settings for a custom logout URL and raw script/style injection, while preserving Copenhagen updates.
 
 <!-- buttons -->
 [![Stars](https://img.shields.io/github/stars/ivancarlosti/copenlight?label=⭐%20Stars&color=gold&style=flat)](https://github.com/ivancarlosti/copenlight/stargazers)
@@ -17,8 +17,8 @@ The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the defau
 ## Instructions
 
 * Fork this repository
-* Edit files `/custom/script.js.template`, `/custom/style.css.template`
-* Run action `Sync CopenhagenTheme Repository` to pull updated Copenhagen files and add content of `/custom/script.js.template`, `/custom/style.css.template` on related `script.js`, `style.css` files
+* Run action `🔄 Copenhagen Sync Repo` to pull updated Copenhagen files and re-apply the CopenLight customizations
+* Configure the theme customization settings in Zendesk (Custom group): `Logout URL`, `Inject script.js`, and `Inject style.css`
 * (optional) Run action `Build, Push, Publish` to create an updated release of your repository
 * Add or update the theme from your repository to Zendesk on `yourzendeskdomain/theming/workbench`
 
