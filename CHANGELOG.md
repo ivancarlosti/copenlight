@@ -1,17 +1,3 @@
-# [61.3.0](https://github.com/ivancarlosti/copenlight/compare/v61.2.0...v61.3.0) (2026-08-15)
-
-
-### Features
-
-* **ci:** rework Copenhagen sync to apply customizations via theme settings ([9d3a496](https://github.com/ivancarlosti/copenlight/commit/9d3a4960ad1f528ce302d5e13c6a7b8e2ee88661))
-
-# [61.2.0](https://github.com/ivancarlosti/copenlight/compare/v61.1.0...v61.2.0) (2026-08-15)
-
-
-### Features
-
-* add custom logout URL and script/style injection settings ([771864e](https://github.com/ivancarlosti/copenlight/commit/771864ea61bdf3a7750c88ab0184fbf288c72378))
-
 ## [4.50.3](https://github.com/zendesk/copenhagen_theme/compare/v4.50.2...v4.50.3) (2026-08-13)
 
 
