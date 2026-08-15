@@ -16,15 +16,12 @@ The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the defau
 
 ## Instructions
 
-* Fork this repository
-* Run action `🔄 Copenhagen Sync Repo` to pull updated Copenhagen files and re-apply the CopenLight customizations
-* Configure the theme customization settings in Zendesk (Custom group): `Logout URL`, `Inject script.js`, and `Inject style.css`
-* (optional) Run action `Build, Push, Publish` to create an updated release of your repository
-* Add or update the theme from your repository to Zendesk on `yourzendeskdomain/theming/workbench`
+* Add this repo `ivancarlosti/copenlight` on Zendesk using `Knowledge > Customize design > Add theme > Add from GitHub`
+* Configure the theme customization settings in Zendesk: `Logout URL`, `Inject script.js`, and `Inject style.css`
 
 ## Custom settings
 
-After importing the theme in Zendesk, open **Guide admin → Customize design → Themes → your theme → Settings** (Theme Customization) and use the `Custom` group.
+After importing the theme in Zendesk, open **Guide admin → Customize design → Themes → CopenLight → Settings** (Theme Customization) and use the `Custom` group.
 
 ### Logout URL
 
@@ -33,13 +30,7 @@ Set a custom sign-out URL. Use the `{{ACTUALPAGE}}` placeholder to insert the cu
 Example:
 
 ```
-https://sso.icc.gg/realms/SocialSSO/protocol/openid-connect/logout?post_logout_redirect_uri={{ACTUALPAGE}}
-```
-
-A visitor on `https://ivancarlos.zendesk.com` will be signed out to:
-
-```
-https://sso.icc.gg/realms/SocialSSO/protocol/openid-connect/logout?post_logout_redirect_uri=https://ivancarlos.zendesk.com
+https://<yoursso.example.com>/realms/<YourRealm>/protocol/openid-connect/logout?client_id=<yourclient>&post_logout_redirect_uri={{ACTUALPAGE}}
 ```
 
 Leave the field empty to keep Zendesk's default sign-out link.
@@ -51,11 +42,6 @@ Upload a JavaScript file to inject into every page. In the `Custom` group, selec
 ### Inject style.css
 
 Upload a CSS file to inject into every page. In the `Custom` group, select `Inject style.css` and upload your `.css` file. It is loaded in [`templates/document_head.hbs`](templates/document_head.hbs:37) via `<link rel="stylesheet">`. The bundled default is [`settings/inject_style.css`](settings/inject_style.css).
-
-## Notes
-
-* This repository have some customizations for better KB viewing
-* Please share your progress with the community
 
 <!-- footer -->
 ---
