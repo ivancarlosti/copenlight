@@ -1,5 +1,5 @@
 # CopenLight theme by Ivan Carlos
-The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the default Zendesk Guide theme. This fork extends it with theme-customization settings for a custom logout URL and raw script/style injection, while preserving Copenhagen updates.
+The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the default Zendesk Guide theme. This fork extends it with theme-customization settings for a custom logout URL and injectable script/style files, while preserving Copenhagen updates.
 
 <!-- buttons -->
 [![Stars](https://img.shields.io/github/stars/ivancarlosti/copenlight?label=⭐%20Stars&color=gold&style=flat)](https://github.com/ivancarlosti/copenlight/stargazers)
@@ -21,6 +21,36 @@ The [Copenhagen](https://github.com/zendesk/copenhagen_theme) theme is the defau
 * Configure the theme customization settings in Zendesk (Custom group): `Logout URL`, `Inject script.js`, and `Inject style.css`
 * (optional) Run action `Build, Push, Publish` to create an updated release of your repository
 * Add or update the theme from your repository to Zendesk on `yourzendeskdomain/theming/workbench`
+
+## Custom settings
+
+After importing the theme in Zendesk, open **Guide admin → Customize design → Themes → your theme → Settings** (Theme Customization) and use the `Custom` group.
+
+### Logout URL
+
+Set a custom sign-out URL. Use the `{{ACTUALPAGE}}` placeholder to insert the current page URL.
+
+Example:
+
+```
+https://sso.icc.gg/realms/SocialSSO/protocol/openid-connect/logout?post_logout_redirect_uri={{ACTUALPAGE}}
+```
+
+A visitor on `https://ivancarlos.zendesk.com` will be signed out to:
+
+```
+https://sso.icc.gg/realms/SocialSSO/protocol/openid-connect/logout?post_logout_redirect_uri=https://ivancarlos.zendesk.com
+```
+
+Leave the field empty to keep Zendesk's default sign-out link.
+
+### Inject script.js
+
+Upload a JavaScript file to inject into every page. In the `Custom` group, select `Inject script.js` and upload your `.js` file. It is loaded in [`templates/document_head.hbs`](templates/document_head.hbs:37) via `<script src>`. The bundled default is [`settings/inject_script.js`](settings/inject_script.js).
+
+### Inject style.css
+
+Upload a CSS file to inject into every page. In the `Custom` group, select `Inject style.css` and upload your `.css` file. It is loaded in [`templates/document_head.hbs`](templates/document_head.hbs:37) via `<link rel="stylesheet">`. The bundled default is [`settings/inject_style.css`](settings/inject_style.css).
 
 ## Notes
 
