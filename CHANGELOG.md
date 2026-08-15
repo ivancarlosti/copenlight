@@ -1,31 +1,3 @@
-# [61.5.0](https://github.com/ivancarlosti/copenlight/compare/v61.4.0...v61.5.0) (2026-08-15)
-
-
-### Features
-
-* **settings:** add custom script and style injection templates ([a23c98d](https://github.com/ivancarlosti/copenlight/commit/a23c98d34036782d1b65b801040dfa3bac961fd5))
-
-# [61.4.0](https://github.com/ivancarlosti/copenlight/compare/v61.3.3...v61.4.0) (2026-08-15)
-
-
-### Features
-
-* **settings:** support file uploads for custom script and style injection ([ea752ff](https://github.com/ivancarlosti/copenlight/commit/ea752ff09a97ebad88f6ed654013af89139d5497))
-
-## [61.3.3](https://github.com/ivancarlosti/copenlight/compare/v61.3.2...v61.3.3) (2026-08-15)
-
-
-### Bug Fixes
-
-* **settings:** change inject_script and inject_style fields to text inputs ([3d661bb](https://github.com/ivancarlosti/copenlight/commit/3d661bbcd03d3e5b08d9ff9b1b95d2e90d00cef4))
-
-## [61.3.2](https://github.com/ivancarlosti/copenlight/compare/v61.3.1...v61.3.2) (2026-08-15)
-
-
-### Bug Fixes
-
-* sync Copenhagen theme [🔄] ([bad1fcb](https://github.com/ivancarlosti/copenlight/commit/bad1fcb84e02afc5640b81d26a0c4efe3062c40f))
-
 ## [4.50.3](https://github.com/zendesk/copenhagen_theme/compare/v4.50.2...v4.50.3) (2026-08-13)
 
 
