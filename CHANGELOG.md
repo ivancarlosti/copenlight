@@ -1,3 +1,10 @@
+# [61.5.0](https://github.com/ivancarlosti/copenlight/compare/v61.4.0...v61.5.0) (2026-08-15)
+
+
+### Features
+
+* **settings:** add custom script and style injection templates ([a23c98d](https://github.com/ivancarlosti/copenlight/commit/a23c98d34036782d1b65b801040dfa3bac961fd5))
+
 # [61.4.0](https://github.com/ivancarlosti/copenlight/compare/v61.3.3...v61.4.0) (2026-08-15)
 
 
