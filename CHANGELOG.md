@@ -1,3 +1,10 @@
+## [61.3.3](https://github.com/ivancarlosti/copenlight/compare/v61.3.2...v61.3.3) (2026-08-15)
+
+
+### Bug Fixes
+
+* **settings:** change inject_script and inject_style fields to text inputs ([3d661bb](https://github.com/ivancarlosti/copenlight/commit/3d661bbcd03d3e5b08d9ff9b1b95d2e90d00cef4))
+
 ## [61.3.2](https://github.com/ivancarlosti/copenlight/compare/v61.3.1...v61.3.2) (2026-08-15)
 
 
