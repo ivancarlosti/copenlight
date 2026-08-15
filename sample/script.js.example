@@ -1,0 +1,89 @@
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('pre').forEach(function(pre) {
+    // Evita duplicar o botão copiar
+    if (pre.querySelector('.copy-btn')) return;
+
+    pre.style.position = 'relative'; // importante para posicionamento absoluto do botão
+
+    // Criar botão copiar com ícone SVG
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.type = 'button';
+    copyBtn.setAttribute('aria-label', 'Copiar código');
+
+    // Ícone clipboard SVG inline
+    copyBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z" />
+      </svg>
+    `;
+
+    copyBtn.addEventListener('click', function() {
+      const codeElement = pre.querySelector('code');
+      let textToCopy = '';
+
+      if (codeElement) {
+        textToCopy = codeElement.innerText;
+      } else {
+        // Copiar apenas texto puro do <pre> ignorando o botão
+        textToCopy = Array.from(pre.childNodes)
+          .filter(node => node.nodeType === Node.TEXT_NODE)
+          .map(node => node.textContent)
+          .join('');
+      }
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        // Feedback visual simples
+        copyBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" >
+            <path fill="green" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>`;
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z" />
+            </svg>
+          `;
+        }, 1500);
+      }).catch(() => {
+        // Se erro, exibe ícone de erro (vermelho)
+        copyBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" >
+            <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.29 13.29-1.41 1.41L12 13.41l-2.88 2.88-1.41-1.41L10.59 12 7.71 9.12l1.41-1.41L12 10.59l2.88-2.88 1.41 1.41L13.41 12l2.88 2.88z"/>
+          </svg>`;
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z" />
+            </svg>`;
+        }, 1500);
+      });
+    });
+
+    pre.appendChild(copyBtn);
+  });
+});
+
+
+
+/* ===== Footer Version Injection ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // Current Version: {{THEME_VERSION}}
+    const footerInner = document.querySelector(".footer-inner");
+    const langSelector = document.querySelector(".footer-language-selector");
+    
+    if (footerInner && !document.querySelector(".footer-version-text")) {
+        const versionDiv = document.createElement("div");
+        versionDiv.className = "footer-version-text";
+        // Flex: 1 to push content, text-align center to center the text itself
+        versionDiv.style.cssText = "flex: 1; font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 10px;";
+        versionDiv.innerText = "v{{THEME_VERSION}}";
+        
+        if (langSelector) {
+            footerInner.insertBefore(versionDiv, langSelector);
+        } else {
+            footerInner.appendChild(versionDiv);
+        }
+    }
+});
+
