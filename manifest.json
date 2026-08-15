@@ -422,14 +422,14 @@
         },
         {
           "identifier": "inject_script",
-          "type": "textarea",
+          "type": "text",
           "description": "inject_script_description",
           "label": "inject_script_label",
           "value": ""
         },
         {
           "identifier": "inject_style",
-          "type": "textarea",
+          "type": "text",
           "description": "inject_style_description",
           "label": "inject_style_label",
           "value": ""
