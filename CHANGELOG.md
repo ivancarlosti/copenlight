@@ -1,3 +1,10 @@
+# [61.4.0](https://github.com/ivancarlosti/copenlight/compare/v61.3.3...v61.4.0) (2026-08-15)
+
+
+### Features
+
+* **settings:** support file uploads for custom script and style injection ([ea752ff](https://github.com/ivancarlosti/copenlight/commit/ea752ff09a97ebad88f6ed654013af89139d5497))
+
 ## [61.3.3](https://github.com/ivancarlosti/copenlight/compare/v61.3.2...v61.3.3) (2026-08-15)
 
 
