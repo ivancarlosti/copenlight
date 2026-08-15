@@ -1,3 +1,15 @@
+# [61.1.0](https://github.com/ivancarlosti/copenlight/compare/v61.0.5...v61.1.0) (2026-08-15)
+
+
+### Bug Fixes
+
+* **ci:** skip wordpress-deploy dispatch when workflow does not exist ([74eda3a](https://github.com/ivancarlosti/copenlight/commit/74eda3aa6332b40e15dda283815d1fde03a7b205))
+
+
+### Features
+
+* **settings:** add custom logout URL and script/style injection options ([cfeeb2d](https://github.com/ivancarlosti/copenlight/commit/cfeeb2d2a18dc601ce7f4df26c0ecbaa53b7a3aa))
+
 ## [4.50.3](https://github.com/zendesk/copenhagen_theme/compare/v4.50.2...v4.50.3) (2026-08-13)
 
 
