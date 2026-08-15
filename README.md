@@ -39,9 +39,21 @@ Leave the field empty to keep Zendesk's default sign-out link.
 
 Upload a JavaScript file to inject into every page. In the `Custom` group, select `Inject script.js` and upload your `.js` file. It is loaded in [`templates/document_head.hbs`](templates/document_head.hbs:37) via `<script src>`. The bundled default is [`settings/inject_script.js`](settings/inject_script.js).
 
+Example:
+
+```
+https://github.com/ivancarlosti/copenlight/blob/main/sample/script.js.example
+```
+
 ### Inject style.css
 
 Upload a CSS file to inject into every page. In the `Custom` group, select `Inject style.css` and upload your `.css` file. It is loaded in [`templates/document_head.hbs`](templates/document_head.hbs:37) via `<link rel="stylesheet">`. The bundled default is [`settings/inject_style.css`](settings/inject_style.css).
+
+Example:
+
+```
+https://github.com/ivancarlosti/copenlight/blob/main/sample/style.css.example
+```
 
 <!-- footer -->
 ---
