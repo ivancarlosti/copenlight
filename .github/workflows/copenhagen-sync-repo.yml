@@ -80,6 +80,19 @@ jobs:
           echo "= manifest.json ="
           cat "$GITHUB_WORKSPACE/manifest.json"
 
+      - name: 🛠 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: 📦 Install dependencies
+        run: |
+          corepack enable
+          yarn install
+
+      - name: 🏗 Build theme
+        run: yarn build
+
       - name: 🧹 Cleanup temp files
         run: rm -rf /tmp/copenhagen_temp
 
