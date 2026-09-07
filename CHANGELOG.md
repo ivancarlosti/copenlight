@@ -1,9 +1,9 @@
-## [61.5.46](https://github.com/ivancarlosti/copenlight/compare/v61.5.45...v61.5.46) (2026-09-07)
+## [4.51.1](https://github.com/zendesk/copenhagen_theme/compare/v4.51.0...v4.51.1) (2026-09-07)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([fa0b678](https://github.com/ivancarlosti/copenlight/commit/fa0b678f7cecf3dcad7d2b576d4f5eb1bb0d06f7))
+* localize the Ask AI button text ([7165316](https://github.com/zendesk/copenhagen_theme/commit/716531608d890e2d72fdf6e7f565a88a162341f3)), closes [chaseappio/ruta-40#21395](https://github.com/chaseappio/ruta-40/issues/21395)
 
 # [4.51.0](https://github.com/zendesk/copenhagen_theme/compare/v4.50.5...v4.51.0) (2026-08-31)
 
