@@ -411,26 +411,26 @@
       ]
     },
     {
-      "label": "Custom",
+      "label": "custom_group_label",
       "variables": [
         {
           "identifier": "logout_url",
           "type": "text",
-          "description": "Custom sign-out URL. Use the placeholder {{ACTUALPAGE}} to insert the current page URL. Leave empty to use the default sign-out link.",
-          "label": "Logout URL",
+          "description": "logout_url_description",
+          "label": "logout_url_label",
           "value": ""
         },
         {
           "identifier": "inject_script",
           "type": "file",
-          "description": "Upload a JavaScript file to inject into every page.",
-          "label": "Inject script.js"
+          "description": "inject_script_description",
+          "label": "inject_script_label"
         },
         {
           "identifier": "inject_style",
           "type": "file",
-          "description": "Upload a CSS file to inject into every page.",
-          "label": "Inject style.css"
+          "description": "inject_style_description",
+          "label": "inject_style_label"
         }
       ]
     }
