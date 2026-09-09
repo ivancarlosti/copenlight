@@ -333,6 +333,11 @@ figure.wysiwyg-image {
     padding: 5px !important;
 }
 
+figure p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .article-body figcaption {
     background-color: #e9ebed !important;
     padding: 3px !important;
