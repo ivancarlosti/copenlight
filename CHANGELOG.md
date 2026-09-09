@@ -1,15 +1,3 @@
-# [61.6.0](https://github.com/ivancarlosti/copenlight/compare/v61.5.50...v61.6.0) (2026-09-09)
-
-
-### Bug Fixes
-
-* sync Copenhagen theme [🔄] ([35dab20](https://github.com/ivancarlosti/copenlight/commit/35dab20d2de84d8a912473ede17d28798af622ae))
-
-
-### Features
-
-* **sync:** add per-locale custom translations for Zendesk settings ([e3fa2ca](https://github.com/ivancarlosti/copenlight/commit/e3fa2ca1875de808700de619dacac50eeae0a5b1))
-
 ## [4.51.1](https://github.com/zendesk/copenhagen_theme/compare/v4.51.0...v4.51.1) (2026-09-07)
 
 
