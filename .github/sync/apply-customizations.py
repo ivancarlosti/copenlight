@@ -47,6 +47,52 @@ TRANSLATIONS = [
     ("inject_style_description", "Description for the inject style.css setting", "Upload a CSS file to inject into every page."),
 ]
 
+EN_TRANSLATIONS = {suffix: value for suffix, _title, value in TRANSLATIONS}
+
+# Per-locale values written into translations/*.json, which Zendesk Guide uses to
+# resolve the setting labels/descriptions referenced in manifest.json. Keep these
+# keys in sync with the ones produced by update_translations() below.
+CUSTOM_TRANSLATIONS = {
+    "en-us": EN_TRANSLATIONS,
+    "en-gb": EN_TRANSLATIONS,
+    "pt-br": {
+        "custom_group_label": "Personalizado",
+        "logout_url_label": "URL de saída",
+        "logout_url_description": "URL de saída personalizada. Use o marcador {{ACTUALPAGE}} para inserir o URL da página atual. Deixe vazio para usar o link de saída padrão.",
+        "inject_script_label": "Injetar script.js",
+        "inject_script_description": "Carregue um arquivo JavaScript para injetar em todas as páginas.",
+        "inject_style_label": "Injetar style.css",
+        "inject_style_description": "Carregue um arquivo CSS para injetar em todas as páginas.",
+    },
+    "pt": {
+        "custom_group_label": "Personalizado",
+        "logout_url_label": "URL de fim de sessão",
+        "logout_url_description": "URL de fim de sessão personalizada. Use o marcador {{ACTUALPAGE}} para inserir o URL da página atual. Deixe vazio para usar a ligação de fim de sessão predefinida.",
+        "inject_script_label": "Injetar script.js",
+        "inject_script_description": "Carregue um ficheiro JavaScript para injetar em todas as páginas.",
+        "inject_style_label": "Injetar style.css",
+        "inject_style_description": "Carregue um ficheiro CSS para injetar em todas as páginas.",
+    },
+    "es-es": {
+        "custom_group_label": "Personalizado",
+        "logout_url_label": "URL de cierre de sesión",
+        "logout_url_description": "URL de cierre de sesión personalizada. Usa el marcador {{ACTUALPAGE}} para insertar la URL de la página actual. Déjalo vacío para usar el enlace de cierre de sesión predeterminado.",
+        "inject_script_label": "Inyectar script.js",
+        "inject_script_description": "Sube un archivo JavaScript para inyectarlo en todas las páginas.",
+        "inject_style_label": "Inyectar style.css",
+        "inject_style_description": "Sube un archivo CSS para inyectarlo en todas las páginas.",
+    },
+    "es-419": {
+        "custom_group_label": "Personalizado",
+        "logout_url_label": "URL de cierre de sesión",
+        "logout_url_description": "URL de cierre de sesión personalizada. Usa el marcador {{ACTUALPAGE}} para insertar la URL de la página actual. Déjalo vacío para usar el enlace de cierre de sesión predeterminado.",
+        "inject_script_label": "Inyectar script.js",
+        "inject_script_description": "Sube un archivo JavaScript para inyectarlo en todas las páginas.",
+        "inject_style_label": "Inyectar style.css",
+        "inject_style_description": "Sube un archivo CSS para inyectarlo en todas las páginas.",
+    },
+}
+
 
 def update_manifest():
     path = ROOT / "manifest.json"
@@ -79,6 +125,24 @@ def update_translations():
             text += "\n"
         text += "".join(blocks)
         path.write_text(text, encoding="utf-8")
+
+
+def update_translation_files():
+    for locale, values in CUSTOM_TRANSLATIONS.items():
+        path = ROOT / "translations" / (locale + ".json")
+        if not path.exists():
+            print(f"WARNING: {path.name} not found; skipping custom translations for {locale}.")
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        updates = {key: value for key, value in values.items() if data.get(key) != value}
+        if not updates:
+            continue
+        data.update(updates)
+        path.write_text(
+            json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        print(f"Updated {len(updates)} custom translations in {path.name}.")
 
 
 def update_header():
@@ -161,6 +225,7 @@ def update_document_head():
 def main():
     update_manifest()
     update_translations()
+    update_translation_files()
     update_header()
     update_document_head()
     print("CopenLight customizations applied.")
