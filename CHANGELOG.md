@@ -1,3 +1,10 @@
+## [61.6.18](https://github.com/ivancarlosti/copenlight/compare/v61.6.17...v61.6.18) (2026-09-18)
+
+
+### Bug Fixes
+
+* sync Copenhagen theme [🔄] ([5f27380](https://github.com/ivancarlosti/copenlight/commit/5f27380b8b355f4389517eab0a43bb6361470335))
+
 ## [4.51.1](https://github.com/zendesk/copenhagen_theme/compare/v4.51.0...v4.51.1) (2026-09-07)
 
 
