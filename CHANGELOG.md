@@ -1,9 +1,9 @@
-## [61.6.28](https://github.com/ivancarlosti/copenlight/compare/v61.6.27...v61.6.28) (2026-09-23)
+## [4.51.2](https://github.com/zendesk/copenhagen_theme/compare/v4.51.1...v4.51.2) (2026-09-23)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([cabea81](https://github.com/ivancarlosti/copenlight/commit/cabea815eaf233d251c9f2f2abf2263cb0c36944))
+* **a11y:** hide breadcrumb separator from screen readers ([a1e6891](https://github.com/zendesk/copenhagen_theme/commit/a1e689129a53cec99812916a1c155f3bafe88c32))
 
 ## [4.51.1](https://github.com/zendesk/copenhagen_theme/compare/v4.51.0...v4.51.1) (2026-09-07)
 
