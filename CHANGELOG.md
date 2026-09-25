@@ -1,9 +1,9 @@
-## [61.6.32](https://github.com/ivancarlosti/copenlight/compare/v61.6.31...v61.6.32) (2026-09-25)
+## [4.51.4](https://github.com/zendesk/copenhagen_theme/compare/v4.51.3...v4.51.4) (2026-09-25)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([d9b3da4](https://github.com/ivancarlosti/copenlight/commit/d9b3da46e13530f1f82e9c1fa167c625a9e2db8d))
+* remove invalid aria-expanded from collapsible containers ([f340d79](https://github.com/zendesk/copenhagen_theme/commit/f340d79a22a088b1e7d17805eeebcba42cecd863))
 
 ## [4.51.3](https://github.com/zendesk/copenhagen_theme/compare/v4.51.2...v4.51.3) (2026-09-24)
 
