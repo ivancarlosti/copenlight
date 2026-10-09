@@ -1,9 +1,9 @@
-## [61.6.59](https://github.com/ivancarlosti/copenlight/compare/v61.6.58...v61.6.59) (2026-10-09)
+## [4.51.5](https://github.com/zendesk/copenhagen_theme/compare/v4.51.4...v4.51.5) (2026-10-09)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([d0e4af5](https://github.com/ivancarlosti/copenlight/commit/d0e4af5b2d154fc3a730930fcf6792c30ecb65a4))
+* update dompurify to version 3.4.16 ([bdafb00](https://github.com/zendesk/copenhagen_theme/commit/bdafb00879bb9b8f6cfbb0049556348a03702e79))
 
 ## [4.51.4](https://github.com/zendesk/copenhagen_theme/compare/v4.51.3...v4.51.4) (2026-09-25)
 
