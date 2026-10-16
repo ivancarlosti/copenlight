@@ -1,9 +1,24 @@
-## [61.6.73](https://github.com/ivancarlosti/copenlight/compare/v61.6.72...v61.6.73) (2026-10-16)
+## [4.53.3](https://github.com/zendesk/copenhagen_theme/compare/v4.53.2...v4.53.3) (2026-10-16)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([900c16f](https://github.com/ivancarlosti/copenlight/commit/900c16f8cadea78e02c7f2e601d18f223d3c2ad8))
+* **GA11YFIX-481:** name the mobile navigation landmark ([e32de4f](https://github.com/zendesk/copenhagen_theme/commit/e32de4feef188061beaeb8e5344b7fe7324e9431))
+
+## [4.53.2](https://github.com/zendesk/copenhagen_theme/compare/v4.53.1...v4.53.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* make Copenhagen Theme lookup fields work without a signed-in user (CD-4178) ([9f783a0](https://github.com/zendesk/copenhagen_theme/commit/9f783a0c9234a7d016043439eb731223c1d4b5b5))
+
+## [4.53.1](https://github.com/zendesk/copenhagen_theme/compare/v4.53.0...v4.53.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* update JS module translations ([e8205e6](https://github.com/zendesk/copenhagen_theme/commit/e8205e6307f02a424718a4c0af03f6bf5aa1b6eb))
+* update settings translations ([9bef79d](https://github.com/zendesk/copenhagen_theme/commit/9bef79db5e0a21fbcc0d06b89fed22c087a4ba43))
 
 # [4.53.0](https://github.com/zendesk/copenhagen_theme/compare/v4.52.1...v4.53.0) (2026-10-15)
 
