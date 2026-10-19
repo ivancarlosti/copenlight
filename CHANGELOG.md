@@ -1,9 +1,9 @@
-## [61.6.79](https://github.com/ivancarlosti/copenlight/compare/v61.6.78...v61.6.79) (2026-10-19)
+## [4.53.4](https://github.com/zendesk/copenhagen_theme/compare/v4.53.3...v4.53.4) (2026-10-19)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([2968046](https://github.com/ivancarlosti/copenlight/commit/2968046d9975c99022e98be5dd3d36da0247a214))
+* **GA11YFIX-480:** remove redundant title attribute from the logo link ([f407d5d](https://github.com/zendesk/copenhagen_theme/commit/f407d5d54b90395d99c2b17d57105ceef85fe566))
 
 ## [4.53.3](https://github.com/zendesk/copenhagen_theme/compare/v4.53.2...v4.53.3) (2026-10-16)
 
