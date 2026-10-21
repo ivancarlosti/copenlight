@@ -1,9 +1,9 @@
-## [61.6.83](https://github.com/ivancarlosti/copenlight/compare/v61.6.82...v61.6.83) (2026-10-21)
+## [4.53.5](https://github.com/zendesk/copenhagen_theme/compare/v4.53.4...v4.53.5) (2026-10-21)
 
 
 ### Bug Fixes
 
-* sync Copenhagen theme [🔄] ([3277724](https://github.com/ivancarlosti/copenlight/commit/3277724c08babf2616ee66ee0e868950f313b627))
+* show unified form errors message for all service catalog requests ([c77fc06](https://github.com/zendesk/copenhagen_theme/commit/c77fc0672a21a276602e4ff14c7c13e1ddbc8b8f))
 
 ## [4.53.4](https://github.com/zendesk/copenhagen_theme/compare/v4.53.3...v4.53.4) (2026-10-19)
 
