@@ -5,31 +5,41 @@ on:
   schedule:
     - cron: '38 */12 * * *'
 
+# contents: write — push the sync commit
+# actions: write — dispatch semantic-release.yml
+permissions:
+  contents: write
+  actions: write
+
+# One sync at a time. Do not cancel a run that is already pushing.
+concurrency:
+  group: copenhagen-sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     name: 🔄 Sync Copenhagen Theme
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: main
           repository: ivancarlosti/copenlight
           clean: true
-          persist-credentials: true
+          # Do not leave the token in .git/config. yarn install and yarn build
+          # execute upstream and npm code, which must not be able to read it.
+          persist-credentials: false
 
       - name: 💾 Save current version
         run: |
           if [ -f manifest.json ]; then
             CURRENT_VERSION=$(jq -r '.version // "1.0.0"' manifest.json)
             echo "Current version in repo: $CURRENT_VERSION"
-            echo "PRESERVED_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+            echo "PRESERVED_VERSION=$CURRENT_VERSION" >> "$GITHUB_ENV"
           else
-            echo "PRESERVED_VERSION=1.0.0" >> $GITHUB_ENV
+            echo "PRESERVED_VERSION=1.0.0" >> "$GITHUB_ENV"
           fi
 
       - name: 🔗 Reset Git remote
@@ -41,7 +51,7 @@ jobs:
       - name: ⬇️ Download Copenhagen theme from master
         run: |
           mkdir -p /tmp/copenhagen_temp
-          cd /tmp/copenhagen_temp
+          cd /tmp/copenhagen_temp || exit
           git clone --branch master https://github.com/zendesk/copenhagen_theme.git
           echo "== Checking manifest.json version =="
           MANIFEST="/tmp/copenhagen_temp/copenhagen_theme/manifest.json"
@@ -59,7 +69,16 @@ jobs:
             echo "Version is beta ($VERSION), aborting sync."
             exit 0
           fi
+          # Semver-like MAJOR.MINOR.PATCH with an optional prerelease (-...) or
+          # build (+...) suffix. Rejects anything that could inject into
+          # GITHUB_ENV or the commit message. Beta versions already exited above.
+          SEMVER_RE='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+          if ! printf '%s\n' "$VERSION" | grep -Eq "$SEMVER_RE"; then
+            echo "Version does not match a semver-like pattern, aborting sync."
+            exit 1
+          fi
           echo "Version is $VERSION. Proceeding with sync."
+          echo "UPSTREAM_VERSION=$VERSION" >> "$GITHUB_ENV"
           rsync -av \
             --exclude='.github' \
             --exclude='.git' \
@@ -81,7 +100,7 @@ jobs:
           cat "$GITHUB_WORKSPACE/manifest.json"
 
       - name: 🛠 Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
 
@@ -98,24 +117,55 @@ jobs:
 
       - name: 💾 Commit and push changes
         id: commit_step
+        env:
+          # Passed in as data. The script below reads the shell variable and
+          # never interpolates ${{ }} into the script text.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_VERSION: ${{ env.UPSTREAM_VERSION }}
         run: |
-          cd "$GITHUB_WORKSPACE"
-          git config --global user.email "ivan@ivancarlos.com.br"
-          git config --global user.name "ivancarlosti"
+          cd "$GITHUB_WORKSPACE" || exit
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add .
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
-            echo "changes_committed=false" >> $GITHUB_OUTPUT
+            echo "changes_committed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "fix: sync Copenhagen theme [🔄]"
+            SEMVER_RE='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+            if ! printf '%s\n' "$UPSTREAM_VERSION" | grep -Eq "$SEMVER_RE"; then
+              echo "Refusing to commit: upstream version is missing or not semver-like."
+              exit 1
+            fi
+            git commit -m "fix(deps): sync Copenhagen theme ${UPSTREAM_VERSION}"
             echo "Commit created"
-            git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/ivancarlosti/copenlight.git HEAD:main
+            # Authenticate only this push. The helper file stores the literal
+            # "$GH_TOKEN"; git expands it from the environment when the helper
+            # runs. The token is not written into the remote URL, .git/config,
+            # the git argv, or the logs. Same Basic credential GitHub expects:
+            # username x-access-token, password the token.
+            CRED_HELPER="$(mktemp)"
+            trap 'rm -f "$CRED_HELPER"' EXIT
+            # $1 and $GH_TOKEN must stay literal in the helper file so the
+            # outer shell does not expand them onto the command line.
+            # shellcheck disable=SC2016
+            printf '%s\n' \
+              '#!/bin/sh' \
+              'if [ "$1" = "get" ]; then' \
+              '  printf "%s\n" "username=x-access-token"' \
+              '  printf "password=%s\n" "$GH_TOKEN"' \
+              'fi' \
+              > "$CRED_HELPER"
+            chmod 700 "$CRED_HELPER"
+            GIT_TERMINAL_PROMPT=0 git \
+              -c credential.helper= \
+              -c "credential.helper=!${CRED_HELPER}" \
+              push origin HEAD:main
             echo "Push successful"
-            echo "changes_committed=true" >> $GITHUB_OUTPUT
+            echo "changes_committed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: 🚀 Trigger semantic-release
         if: steps.commit_step.outputs.changes_committed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run semantic-release.yml
+        run: gh workflow run semantic-release.yml --ref main
