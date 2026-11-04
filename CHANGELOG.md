@@ -1,9 +1,10 @@
-## [61.6.111](https://github.com/ivancarlosti/copenlight/compare/v61.6.110...v61.6.111) (2026-11-04)
+## [4.53.7](https://github.com/zendesk/copenhagen_theme/compare/v4.53.6...v4.53.7) (2026-11-04)
 
 
 ### Bug Fixes
 
-* **deps:** sync Copenhagen theme 4.53.6 ([c5ca9bf](https://github.com/ivancarlosti/copenlight/commit/c5ca9bf5d470440786522c34fb192b0345e9b58e))
+* **service-catalog:** translate built-in category labels (PDSC-1138) ([371d38a](https://github.com/zendesk/copenhagen_theme/commit/371d38a63f7f16a659b3f641ece7e58dba2e108b))
+* **ticket-fields:** keep the typed query when the initial user loads late ([f74f56f](https://github.com/zendesk/copenhagen_theme/commit/f74f56faa8ca25bc88ed7e646a7d9326ab0aa3f7)), closes [zendesk/lisbon-theme#89](https://github.com/zendesk/lisbon-theme/issues/89)
 
 ## [4.53.6](https://github.com/zendesk/copenhagen_theme/compare/v4.53.5...v4.53.6) (2026-10-22)
 
