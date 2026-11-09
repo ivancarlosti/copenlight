@@ -1,9 +1,15 @@
-## [61.6.121](https://github.com/ivancarlosti/copenlight/compare/v61.6.120...v61.6.121) (2026-11-09)
+# [4.54.0](https://github.com/zendesk/copenhagen_theme/compare/v4.53.7...v4.54.0) (2026-11-09)
 
 
 ### Bug Fixes
 
-* **deps:** sync Copenhagen theme 4.53.7 ([ae4dc73](https://github.com/ivancarlosti/copenlight/commit/ae4dc73528c6c6903d6c1188b3caf93e47899a6e))
+* mitigations to race window during requests and specs for it ([37369a0](https://github.com/zendesk/copenhagen_theme/commit/37369a01912e4d08358000c78dd4c0d9dac47954))
+
+
+### Features
+
+* extract stale request to a hook ([5802047](https://github.com/zendesk/copenhagen_theme/commit/58020477e1b72bff6d95a70813a02fed6fff92e5))
+* reload assets on requester change in item request submission ([b077454](https://github.com/zendesk/copenhagen_theme/commit/b077454cf243c5eaf5b0bc3eed8f1640809a7e02))
 
 ## [4.53.7](https://github.com/zendesk/copenhagen_theme/compare/v4.53.6...v4.53.7) (2026-11-04)
 
